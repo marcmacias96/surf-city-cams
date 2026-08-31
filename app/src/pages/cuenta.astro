@@ -1,0 +1,58 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import AppNavbar from "@/components/AppNavbar.astro";
+import Footer from "@/components/Footer.astro";
+import CuentaPanel from "@/components/cuenta/CuentaPanel.tsx";
+
+const sideItems = [
+  { id: "accesos", label: "Mis accesos" },
+  { id: "guardados", label: "Spots guardados" },
+  { id: "alertas", label: "Alertas" },
+  { id: "pagos", label: "Pagos" },
+  { id: "perfil", label: "Perfil" },
+];
+---
+
+<Layout title="Mi cuenta">
+  <AppNavbar active="mipase" />
+
+  <main class="bg-mist">
+    <div class="mx-auto flex max-w-7xl flex-col items-start gap-8 px-6 py-11 pb-14 lg:flex-row lg:px-10">
+      <!-- Sidebar -->
+      <aside class="flex w-full shrink-0 flex-row gap-2 overflow-x-auto rounded-2xl border border-ocean/10 bg-white p-3.5 lg:w-60 lg:flex-col lg:gap-1 lg:overflow-visible">
+        {sideItems.map((item) => (
+          <div
+            class:list={[
+              "flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-full px-3.5 py-3 font-heading text-[15px] lg:rounded-xl",
+              item.id === "accesos"
+                ? "bg-ocean/8 font-bold text-ocean"
+                : "font-semibold text-muted-foreground",
+            ]}
+          >
+            {item.id === "accesos" && (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7" width="18" height="12" rx="2.5" stroke="#00527A" stroke-width="2"></rect><path d="M12 11v4M10 13h4" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path></svg>
+            )}
+            {item.id === "guardados" && (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11z" stroke="#6B7B85" stroke-width="2"></path></svg>
+            )}
+            {item.id === "alertas" && (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M10.3 21a2 2 0 0 0 3.4 0" stroke="#6B7B85" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            )}
+            {item.id === "pagos" && (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="6" width="18" height="13" rx="2.5" stroke="#6B7B85" stroke-width="2"></rect><path d="M3 10.5h18" stroke="#6B7B85" stroke-width="2"></path></svg>
+            )}
+            {item.id === "perfil" && (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4" stroke="#6B7B85" stroke-width="2"></circle><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5" stroke="#6B7B85" stroke-width="2" stroke-linecap="round"></path></svg>
+            )}
+            {item.label}
+          </div>
+        ))}
+      </aside>
+
+      <!-- Main column: lee la sesión local (pases y suscripción comprados) -->
+      <CuentaPanel client:load />
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

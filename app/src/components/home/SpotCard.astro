@@ -1,0 +1,67 @@
+---
+import CamSurface from "@/components/CamSurface.astro";
+import type { Spot } from "@/data/spots";
+
+interface Props {
+  spot: Spot;
+}
+const { spot } = Astro.props;
+
+const locked = spot.access === "bloqueado";
+const badge = spot.access === "gratis" ? "GRATIS" : spot.access === "premium" ? "PREMIUM" : null;
+const href = `/spots/${spot.slug}`;
+const tideDown = spot.tide.startsWith("Bajando");
+---
+
+<article class="flex flex-col overflow-hidden rounded-2xl border border-ocean/10 bg-white shadow-[0_6px_20px_rgba(0,58,87,0.06)] transition-shadow hover:shadow-[0_10px_28px_rgba(0,58,87,0.12)]">
+  {locked ? (
+    <CamSurface gradient={spot.gradient} locked class="h-[190px]" />
+  ) : (
+    <a href={href} aria-label={`Ver cámara de ${spot.name}`}>
+      <CamSurface gradient={spot.gradient} badge={badge} class="h-[190px]" />
+    </a>
+  )}
+
+  <div class="flex flex-col gap-3 p-4 pb-[18px]">
+    <div class="flex items-baseline justify-between gap-3">
+      <a href={href} class="font-heading text-[19px] font-bold text-ocean-deep hover:text-ocean">{spot.name}</a>
+      <span class="text-xs text-muted-foreground">{spot.breakType} · {spot.region}</span>
+    </div>
+
+    <div class="flex flex-wrap gap-2">
+      <span class="flex items-center gap-1.5 rounded-full bg-mist px-2.5 py-1.5">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 17c3-5 6-5 9-2.5S18 17 22 13" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path></svg>
+        <span class="text-xs font-semibold text-ocean-deep">{spot.waveM.toFixed(1)} m</span>
+      </span>
+
+      {locked ? (
+        <span class="flex items-center gap-1.5 rounded-full bg-sand px-2.5 py-1.5">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="10" width="12" height="8" rx="2" stroke="#8A6D3B" stroke-width="2"></rect><path d="M9 10V8a3 3 0 1 1 6 0v2" stroke="#8A6D3B" stroke-width="2"></path></svg>
+          <span class="text-xs font-semibold text-sand-dark">Forecast completo</span>
+        </span>
+      ) : (
+        <>
+          {spot.offshore ? (
+            <span class="flex items-center gap-1.5 rounded-full bg-mist px-2.5 py-1.5">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h9a3 3 0 1 0-3-3M3 12h13a3 3 0 1 1-3 3" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round"></path></svg>
+              <span class="text-xs font-semibold text-success">Offshore</span>
+            </span>
+          ) : (
+            <span class="flex items-center gap-1.5 rounded-full bg-mist px-2.5 py-1.5">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h9a3 3 0 1 0-3-3M3 12h13a3 3 0 1 1-3 3" stroke="#6B7B85" stroke-width="2" stroke-linecap="round"></path></svg>
+              <span class="text-xs font-semibold text-muted-foreground">{spot.windKn} kn</span>
+            </span>
+          )}
+          <span class="flex items-center gap-1.5 rounded-full bg-mist px-2.5 py-1.5">
+            {tideDown ? (
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v13M7 13l5 5 5-5" stroke="#00527A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            ) : (
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 19V6M7 11l5-5 5 5" stroke="#00527A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            )}
+            <span class="text-xs font-semibold text-ocean-deep">{spot.tide}</span>
+          </span>
+        </>
+      )}
+    </div>
+  </div>
+</article>

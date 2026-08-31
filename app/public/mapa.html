@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mapa de spots · SurfCity Cams</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600;700&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<style>
+:root{
+  --ocean:#00527A; --ocean-deep:#003A57; --terracotta:#DC8158; --sand:#EFDEB1;
+  --mist:#F4F7F9; --seafoam:#7FD8F0; --success:#2EAA6B;
+  --font-heading:"Josefin Sans","Trebuchet MS",sans-serif; --font-body:"Inter",system-ui,sans-serif;
+}
+html,body{margin:0;height:100%;background:var(--mist);font-family:var(--font-body);color:var(--ocean-deep)}
+#map{position:absolute;inset:0;background:#B7D2E0}
+.leaflet-tile-pane{filter:brightness(1.02) saturate(1.08)}
+#tint{position:absolute;inset:0;z-index:400;pointer-events:none;background:radial-gradient(130% 90% at 30% 45%,rgba(0,58,87,0),rgba(0,58,87,.28));mix-blend-mode:multiply}
+.leaflet-container{background:#9FC4D6;font-family:var(--font-body)}
+.leaflet-control-attribution{background:rgba(255,255,255,.82)!important;color:#5C6B75!important;font-size:10px}
+.leaflet-control-attribution a{color:var(--ocean)!important}
+
+/* Zoom nativo, a juego con los pills del HUD */
+.leaflet-control-zoom{border:1px solid rgba(0,82,122,.22)!important;border-radius:12px!important;overflow:hidden;box-shadow:0 4px 14px rgba(0,42,64,.15)!important}
+.leaflet-control-zoom a{width:36px!important;height:36px!important;line-height:34px!important;background:rgba(255,255,255,.92)!important;backdrop-filter:blur(6px);color:var(--ocean)!important;font:600 20px/34px var(--font-body)!important;border:none!important;transition:color .15s,background .15s}
+.leaflet-control-zoom a.leaflet-control-zoom-in{border-bottom:1px solid rgba(0,82,122,.18)!important}
+.leaflet-control-zoom a:hover{color:var(--terracotta)!important;background:#fff!important}
+.leaflet-control-zoom a.leaflet-disabled{color:rgba(0,82,122,.35)!important;background:rgba(255,255,255,.92)!important}
+
+/* Marcadores */
+.spot{position:relative;display:block;width:0;height:0} /* block: los transform de separarMarcadores() no aplican a inline */
+.spot i{position:absolute;left:-16px;top:-16px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-sizing:border-box;border:2.5px solid #fff;box-shadow:0 4px 14px rgba(0,20,32,.4);transition:all .2s}
+.spot svg{width:15px;height:15px;display:block}
+.spot.gratis i{background:var(--success)}
+.spot.premium i{background:var(--ocean)}
+.spot.bloqueado i{background:#41586A}
+.spot.on i{left:-21px;top:-21px;width:42px;height:42px;background:var(--terracotta);box-shadow:0 0 0 6px rgba(220,129,88,.30),0 8px 22px rgba(0,20,32,.45)}
+.spot.on svg{width:19px;height:19px}
+.spot.gratis:not(.on) i{animation:vivo 2.4s ease-out infinite}
+@keyframes vivo{0%{box-shadow:0 4px 14px rgba(0,20,32,.4),0 0 0 0 rgba(46,170,107,.5)}70%{box-shadow:0 4px 14px rgba(0,20,32,.4),0 0 0 14px rgba(46,170,107,0)}100%{box-shadow:0 4px 14px rgba(0,20,32,.4),0 0 0 0 rgba(46,170,107,0)}}
+
+/* Tarjetas (tooltips permanentes) */
+.leaflet-tooltip.tip{background:rgba(255,255,255,.96);border:1px solid rgba(0,82,122,.18);border-radius:12px;box-shadow:0 10px 28px rgba(0,42,64,.28);color:var(--ocean-deep);padding:8px 13px;font-size:13px;white-space:nowrap;backdrop-filter:blur(4px);cursor:pointer}
+.leaflet-tooltip.tip::before{display:none}
+.leaflet-tooltip.tip .c{display:block;font:700 16px/1.15 var(--font-heading);letter-spacing:.02em;color:var(--ocean-deep)}
+.leaflet-tooltip.tip .p{display:flex;align-items:center;gap:6px;font-size:12px;color:#5C6B75;margin-top:3px}
+.leaflet-tooltip.tip .p .dot{width:6px;height:6px;border-radius:50%;background:#E5484D;animation:parp 1.6s ease-in-out infinite}
+.leaflet-tooltip.tip .p .lock{color:#8A6D3B;font-weight:600}
+@keyframes parp{0%,100%{opacity:1}50%{opacity:.3}}
+.leaflet-tooltip.tip.dim{opacity:.9}
+.leaflet-tooltip.tip.on{border-color:rgba(220,129,88,.65);box-shadow:0 12px 32px rgba(0,42,64,.35)}
+.leaflet-tooltip.tip.on .c{color:var(--terracotta)}
+@media (max-width:360px){
+  .leaflet-tooltip.tip{padding:6px 10px;font-size:12px}
+  .leaflet-tooltip.tip .c{font-size:14px}
+  .leaflet-tooltip.tip .p{font-size:11px;margin-top:2px}
+}
+
+/* HUD */
+#hud{position:absolute;z-index:500;left:12px;top:12px;display:flex;gap:8px;flex-wrap:wrap}
+#hud button{cursor:pointer;font:700 13px/1 var(--font-heading);padding:10px 16px 9px;border-radius:999px;color:var(--ocean);background:rgba(255,255,255,.92);border:1px solid rgba(0,82,122,.22);backdrop-filter:blur(6px);box-shadow:0 4px 14px rgba(0,42,64,.15)}
+#hud button:hover{border-color:var(--terracotta);color:var(--terracotta)}
+#hud button:focus-visible{outline:2px solid var(--terracotta);outline-offset:2px}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="tint"></div>
+<div id="hud">
+  <button id="all">Toda la costa</button>
+  <button id="zoom">Acercar</button>
+</div>
+<script>
+// Los spots los manda la landing por postMessage: los datos tienen un solo
+// dueño (src/data/spots.ts). Este archivo solo dibuja.
+let SPOTS = [];
+let selected = null; // slug del spot elegido, o null = toda la costa
+let bounds = null;
+const marks = {};
+
+const COAST = L.latLngBounds([[-1.45, -81.30], [-0.65, -80.35]]);
+const map = L.map('map', { zoomControl: false, scrollWheelZoom: false, attributionControl: true,
+  maxBounds: COAST, maxBoundsViscosity: 1, minZoom: 9, maxZoom: 16, bounceAtZoomLimits: false,
+  doubleClickZoom: false });
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Imágenes: Esri, Maxar, Earthstar Geographics · © OpenStreetMap contributors',
+  maxZoom: 16, minZoom: 9
+}).addTo(map);
+
+// Controles nativos de zoom, abajo a la derecha (encima de la atribución).
+L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+// Las tarjetas se dibujan desplazadas del marcador y Leaflet encuadra
+// marcadores, no tarjetas: hay que reservarles hueco al ajustar el encuadre.
+const TIP_W = 210, TIP_H = 56, HUD_H = 56, ATTR_H = 30;
+
+function fitPadding(){
+  const w = map.getSize().x;
+  // En mapas estrechos no hay columna de tarjetas (solo la del spot
+  // elegido, junto a su marcador): basta un margen pequeño.
+  const lado = w < 560 ? 24 : TIP_W;
+  return {
+    paddingTopLeft: [lado, Math.max(HUD_H, TIP_H / 2 + 12)],
+    paddingBottomRight: [lado, Math.max(ATTR_H, TIP_H / 2 + 12)],
+  };
+}
+
+/** Centro desplazado para que la tarjeta del spot elegido entre en pantalla. */
+function centerFor(latlng, zoom){
+  const w = map.getSize().x;
+  if (w >= 560) return L.latLng(latlng);
+  const shift = Math.min(TIP_W / 2, Math.round(w * 0.2));
+  return map.unproject(map.project(latlng, zoom).subtract([shift, 0]), zoom);
+}
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const CAM_SVG = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2.5" y="6" width="13" height="12" rx="2.5" fill="none" stroke="#fff" stroke-width="2"/><path d="M15.5 10.5 21 7.5v9l-5.5-3" fill="#fff"/></svg>';
+const LOCK_SVG = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#fff" stroke-width="2"/><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="#fff" stroke-width="2"/></svg>';
+
+function subline(s){
+  if (s.access === 'bloqueado') return '<span class="lock">Con pase · desde $1.49</span>';
+  return '<span class="dot"></span>' + esc(s.breakType) + ' · ' + esc(s.waveM.toFixed(1)) + ' m';
+}
+
+const contentFor = s => '<span class="c">' + esc(s.name) + '</span><span class="p">' + subline(s) + '</span>';
+
+/**
+ * Spots casi pegados (p. ej. los picos de San Mateo) se apilan a este zoom:
+ * empuja sus iconos VISUALMENTE hasta una separación mínima en píxeles, sin
+ * tocar la posición real. Al acercar el zoom la distancia real crece y el
+ * desplazamiento tiende a cero por sí solo.
+ */
+function separarMarcadores(){
+  const MIN = 34; // diámetro del marcador + un respiro
+  const pts = SPOTS.map(s => {
+    const p = map.latLngToContainerPoint([s.lat, s.lon]);
+    return { s, x0: p.x, y0: p.y, x: p.x, y: p.y };
+  });
+  for (let iter = 0; iter < 24; iter++){
+    for (let i = 0; i < pts.length; i++){
+      for (let j = i + 1; j < pts.length; j++){
+        const a = pts[i], b = pts[j];
+        let dx = b.x - a.x, dy = b.y - a.y;
+        let d = Math.hypot(dx, dy);
+        if (d >= MIN) continue;
+        if (d < 0.01){ dx = 1; dy = 0; d = 1; }
+        const push = (MIN - d) / 2;
+        a.x -= (dx / d) * push; a.y -= (dy / d) * push;
+        b.x += (dx / d) * push; b.y += (dy / d) * push;
+      }
+    }
+  }
+  pts.forEach(o => {
+    const mk = marks[o.s.slug];
+    const el = mk && mk.m.getElement() && mk.m.getElement().querySelector('.spot');
+    if (!el) return;
+    const dx = Math.round(o.x - o.x0), dy = Math.round(o.y - o.y0);
+    el.style.transform = dx || dy ? `translate(${dx}px, ${dy}px)` : '';
+  });
+}
+
+// Cualquier zoom o paneo cambia la proyección: las tarjetas se recolocan al
+// terminar (layoutCards ya cierra llamando a separarMarcadores).
+let relayoutT = null;
+const relayout = () => { clearTimeout(relayoutT); relayoutT = setTimeout(() => layoutCards(), 120); };
+map.on('zoomend', relayout);
+map.on('moveend', relayout);
+
+/** Reencaja la tarjeta de un marcador con un offset nuevo. */
+function rebind(m, s, off){
+  m.unbindTooltip();
+  m.bindTooltip(contentFor(s), {
+    permanent: true, direction: 'left', offset: off, className: 'tip', opacity: 1, interactive: true
+  });
+}
+
+/**
+ * Coloca cada tarjeta a la izquierda de SU marcador, de modo que el
+ * conjunto sigue la diagonal del perfil costero (como el mapa del tour
+ * LPS); solo se corrige la vertical lo justo para que tarjetas de spots
+ * vecinos nunca se solapen, sobre la proyección actual del mapa.
+ */
+function layoutCards(){
+  if (!SPOTS.length) return;
+  const size = map.getSize();
+
+  // Mapa estrecho: las 6 tarjetas no caben. Solo se muestra la del spot
+  // elegido (junto a su marcador); el resto queda como capa de marcadores.
+  if (size.x < 560){
+    Object.values(marks).forEach(({ m, s }) => {
+      if (s.slug === selected) rebind(m, s, [-36, 0]);
+      else m.unbindTooltip();
+    });
+    paint();
+    return;
+  }
+
+  // SEP: mismo hueco tarjeta-marcador que LPS; el seleccionado crece a 42px
+  // + anillo, así que su tarjeta necesita más aire para no pisar el círculo.
+  const CARD_H = 52, GAP = 10, SEP = 24, SEP_ON = 36;
+  const STEP = CARD_H + GAP;
+  // Solo llevan tarjeta los marcadores dentro del viewport (con un margen):
+  // de cerca, las tarjetas de spots lejanos se apilarían contra los bordes.
+  const MARGEN = 60;
+  const all = SPOTS.map(s => ({ s, p: map.latLngToContainerPoint([s.lat, s.lon]) }));
+  const pts = all
+    .filter(o => o.p.x >= -MARGEN && o.p.x <= size.x + MARGEN && o.p.y >= -MARGEN && o.p.y <= size.y + MARGEN)
+    .sort((a, b) => a.p.y - b.p.y);
+  all.forEach(o => {
+    if (pts.indexOf(o) >= 0) return;
+    const mk = marks[o.s.slug];
+    if (mk) mk.m.unbindTooltip();
+  });
+  const n = pts.length;
+  if (!n){ paint(); separarMarcadores(); return; }
+  const top = HUD_H + CARD_H / 2;
+  const bottom = size.y - ATTR_H - CARD_H / 2;
+
+  // Vertical: relajación iterativa — cada tarjeta tira hacia la altura de su
+  // marcador y los solapes se reparten mitad y mitad, de modo que un grupo de
+  // spots casi a la misma latitud queda CENTRADO sobre sus marcadores (el
+  // efecto de los offsets a mano de LPS), no empujado todo hacia abajo.
+  // Con un solo visible no hay nada que relajar: su tarjeta, a su altura.
+  const orig = pts.map(o => o.p.y);
+  const ys = orig.slice();
+  if (n > 1) {
+    for (let iter = 0; iter < 60; iter++) {
+      for (let i = 0; i < n; i++) ys[i] += (orig[i] - ys[i]) * 0.25;
+      for (let i = 0; i < n - 1; i++) {
+        const ov = STEP - (ys[i + 1] - ys[i]);
+        if (ov > 0) { ys[i] -= ov / 2; ys[i + 1] += ov / 2; }
+      }
+      ys[0] = Math.max(ys[0], top);
+      ys[n - 1] = Math.min(ys[n - 1], bottom);
+    }
+    // Garantía final de no-solape dentro del lienzo.
+    for (let i = 1; i < n; i++) ys[i] = Math.max(ys[i], ys[i - 1] + STEP);
+    ys[n - 1] = Math.min(ys[n - 1], bottom);
+    for (let i = n - 2; i >= 0; i--) ys[i] = Math.min(ys[i], ys[i + 1] - STEP);
+  }
+
+  // Horizontal como LPS: cada tarjeta pegada a la izquierda de SU marcador
+  // (la fila sigue la diagonal de la costa). Si otro marcador cae en la
+  // franja vertical de la tarjeta, esta se corre para no taparlo.
+  pts.forEach((o, i) => {
+    const mk = marks[o.s.slug];
+    if (!mk) return;
+    let anchorX = o.p.x;
+    pts.forEach((other) => {
+      if (other !== o && Math.abs(other.p.y - ys[i]) < CARD_H / 2 + 20) {
+        anchorX = Math.min(anchorX, other.p.x);
+      }
+    });
+    const rightEdge = Math.max(TIP_W + 8, anchorX - (o.s.slug === selected ? SEP_ON : SEP));
+    rebind(mk.m, o.s, [rightEdge - o.p.x, ys[i] - o.p.y]);
+  });
+  paint();
+  separarMarcadores();
+}
+
+/** Dibuja los spots que manda la landing. */
+function construir(spots){
+  SPOTS = spots;
+  bounds = L.latLngBounds(SPOTS.map(s => [s.lat, s.lon]));
+  // Si el mapa arrancó con el iframe aún sin medidas (loading="lazy"),
+  // Leaflet no pinta tiles hasta recalcular su tamaño.
+  map.invalidateSize();
+
+  Object.values(marks).forEach(({ m }) => m.remove());
+  Object.keys(marks).forEach(k => delete marks[k]);
+
+  SPOTS.forEach(s => {
+    const icon = s.access === 'bloqueado' ? LOCK_SVG : CAM_SVG;
+    const m = L.marker([s.lat, s.lon], {
+      icon: L.divIcon({ className: '', iconSize: [0,0], html: '<span class="spot ' + esc(s.access) + '"><i>' + icon + '</i></span>' }),
+      keyboard: true, title: s.name
+    }).addTo(map);
+    m.bindTooltip(contentFor(s), {
+      permanent: true, direction: 'left', offset: [-16, 0], className: 'tip', opacity: 1, interactive: true
+    });
+    m.on('click', () => choose(s.slug, true));
+    m.on('tooltipopen', (e) => {
+      const el = e.tooltip.getElement();
+      if (el){
+        el.style.pointerEvents = 'auto';
+        el.onclick = (ev) => { ev.stopPropagation(); choose(s.slug, true); };
+      }
+      paint();
+    });
+    marks[s.slug] = { m, s };
+  });
+
+  map.fitBounds(bounds, Object.assign({ animate: false }, fitPadding()));
+  layoutCards();
+}
+
+function paint(){
+  Object.values(marks).forEach(({ m, s }) => {
+    const on = s.slug === selected;
+    const el = m.getElement() && m.getElement().querySelector('.spot');
+    if (el) el.className = 'spot ' + s.access + (on ? ' on' : '');
+    const tip = m.getTooltip();
+    if (tip){
+      const t = tip.getElement();
+      if (t){
+        t.classList.add('tip');
+        t.classList.toggle('dim', !on && selected != null);
+        t.classList.toggle('on', on);
+        t.style.pointerEvents = 'auto';
+        t.style.zIndex = on ? 900 : 400;
+      }
+    }
+    m.setZIndexOffset(on ? 1000 : 0);
+  });
+}
+
+function choose(slug, emit){
+  selected = slug;
+  const mk = marks[slug];
+  if (!mk) return;
+  // En mapas estrechos solo vive la tarjeta del spot elegido.
+  if (map.getSize().x < 560){
+    Object.values(marks).forEach(({ m, s }) => { if (s.slug !== slug) m.unbindTooltip(); });
+  }
+  // De cerca la tarjeta vuelve junto a su marcador, con aire suficiente
+  // para no pisar el círculo grande (42px + anillo) del seleccionado.
+  rebind(mk.m, mk.s, [-36, 0]);
+  paint();
+  map.flyTo(centerFor([mk.s.lat, mk.s.lon], 15), 15, { duration: .9 });
+  map.once('moveend', () => map.panInsideBounds(COAST, { animate: true }));
+  if (emit) parent.postMessage({ source: 'surfcity-map', type: 'select', slug }, '*');
+}
+
+function verCosta(){
+  if (!bounds) return;
+  map.flyToBounds(bounds, Object.assign({ duration: .8 }, fitPadding()));
+}
+
+document.getElementById('all').onclick = () => { selected = null; paint(); verCosta(); parent.postMessage({ source: 'surfcity-map', type: 'select', slug: null }, '*'); };
+document.getElementById('zoom').onclick = () => (selected ? choose(selected, false) : verCosta());
+
+window.addEventListener('message', ev => {
+  const d = ev.data || {};
+  if (d.source !== 'surfcity-app') return;
+  if (Array.isArray(d.spots) && JSON.stringify(d.spots) !== JSON.stringify(SPOTS)) construir(d.spots);
+  if ('selected' in d && d.selected !== selected){
+    if (d.selected) choose(d.selected, false);
+    else { selected = null; paint(); verCosta(); }
+  }
+});
+
+// Avisa a la landing de que ya puede mandar los spots.
+parent.postMessage({ source: 'surfcity-map', type: 'ready' }, '*');
+</script>
+</body>
+</html>

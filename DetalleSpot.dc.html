@@ -1,0 +1,272 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap">
+  <style>
+    body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: #ffffff; }
+    a { color: #00527A; text-decoration: none; } a:hover { color: #003A57; }
+  </style>
+</helmet>
+<div style="width: 1440px; background: #ffffff; display: flex; flex-direction: column;">
+
+  <!-- Top bar -->
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 64px; border-bottom: 1px solid rgba(0,82,122,0.10); background: #ffffff;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="19" cy="19" r="19" fill="#00527A"></circle><path d="M7 23c4-6 8.5-6.5 12.5-3.5S28 23 32 18.5" stroke="#ffffff" stroke-width="2.6" fill="none" stroke-linecap="round"></path><path d="M9 28c3-4 6.5-4.2 9.5-2.2s7.5 2 10.5-1.3" stroke="#7FD8F0" stroke-width="2" fill="none" stroke-linecap="round"></path></svg>
+      <div style="font-family: 'Josefin Sans', 'Trebuchet MS', sans-serif; font-weight: 700; font-size: 25px; color: #003A57; letter-spacing: 0.3px;">Surf<span style="color: #0E9DD8;">City</span> <span style="font-weight: 400; font-size: 15px; color: #6B7B85; letter-spacing: 1px;">CAMS</span></div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 32px; font-family: 'Josefin Sans', 'Trebuchet MS', sans-serif; font-weight: 600; font-size: 16px; color: #003A57;">
+      <div>Spots</div>
+      <div style="color: #00527A; border-bottom: 2px solid #DC8158; padding-bottom: 2px;">Cámaras</div>
+      <div>Forecast</div>
+      <div>Planes</div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 7px; background: #EFDEB1; border-radius: 20px; padding: 8px 16px 6px 16px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.5 6.8L12 16.8 5.9 20.3l1.5-6.8L2.2 8.9l6.9-.6z" fill="#8A6D3B"></path></svg>
+        <span style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 13px; color: #8A6D3B;">Pase activo · 31 h</span>
+      </div>
+      <div style="width: 38px; height: 38px; border-radius: 50%; background: #00527A; color: #ffffff; display: flex; align-items: center; justify-content: center; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px;">M</div>
+    </div>
+  </div>
+
+  <!-- Breadcrumb + title -->
+  <div style="padding: 28px 64px 20px 64px; display: flex; align-items: flex-end; justify-content: space-between;">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="font-size: 13px; color: #6B7B85;"><span style="color: #00527A; font-weight: 600;">Cámaras</span> &nbsp;/&nbsp; Manta &nbsp;/&nbsp; San Mateo</div>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 40px; color: #003A57; letter-spacing: 0.5px;">San Mateo</div>
+        <div style="display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.75); border-radius: 16px; padding: 6px 13px 5px 13px;">
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: #E5484D; display: inline-block;"></span>
+          <span style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 12px; color: #ffffff; letter-spacing: 1.2px;">EN VIVO</span>
+        </div>
+        <div style="background: rgba(46,170,107,0.12); color: #1E7A4C; border-radius: 16px; padding: 7px 13px 5px 13px; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">CONDICIONES BUENAS</div>
+      </div>
+      <div style="font-size: 15px; color: #6B7B85;">Point break izquierdo · Fondo de arena y roca · Mejor de media a llena</div>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 7px; background: rgba(0,82,122,0.08); color: #00527A; border-radius: 22px; padding: 11px 20px 9px 20px; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 14px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z" stroke="#00527A" stroke-width="2"></path><circle cx="12" cy="10" r="2.5" stroke="#00527A" stroke-width="2"></circle></svg>
+        Cómo llegar
+      </div>
+      <div style="display: flex; align-items: center; gap: 7px; background: #00527A; color: #ffffff; border-radius: 22px; padding: 11px 20px 9px 20px; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 14px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11z" stroke="#ffffff" stroke-width="2"></path></svg>
+        Guardar spot
+      </div>
+    </div>
+  </div>
+
+  <!-- Player + forecast column -->
+  <div style="padding: 8px 64px 48px 64px; display: flex; gap: 28px; align-items: flex-start;">
+
+    <!-- Player -->
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
+      <div style="position: relative; height: 508px; border-radius: 20px; overflow: hidden; background: linear-gradient(168deg, #A8CBDC 0%, #5E9DBD 30%, #1E729A 62%, #0B4B6E 100%); box-shadow: 0 16px 44px rgba(0,58,87,0.22);">
+        <svg width="904" height="200" viewBox="0 0 904 200" style="position: absolute; bottom: 0; left: 0; opacity: 0.5;" xmlns="http://www.w3.org/2000/svg"><path d="M0 110c110-40 220-36 330-8s220 36 330 6 160-44 244-32v124H0z" fill="#E9F4F9"></path><path d="M0 156c130-24 260-18 390 0s260 16 390-8 90-16 124-10v62H0z" fill="#ffffff"></path></svg>
+        <div style="position: absolute; top: 18px; left: 18px; display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.6); border-radius: 18px; padding: 8px 16px 6px 16px;">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: #E5484D; display: inline-block;"></span>
+          <span style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 13px; color: #ffffff; letter-spacing: 1.2px;">EN VIVO · CÁMARA NORTE</span>
+        </div>
+        <div style="position: absolute; top: 18px; right: 18px; display: flex; gap: 8px;">
+          <div style="background: rgba(0,0,0,0.6); border-radius: 16px; padding: 7px 14px 5px 14px; font-size: 12px; color: #ffffff; font-weight: 500;">1080p</div>
+          <div style="display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.6); border-radius: 16px; padding: 7px 14px 5px 14px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z" stroke="#ffffff" stroke-width="2"></path><circle cx="12" cy="12" r="2.5" stroke="#ffffff" stroke-width="2"></circle></svg>
+            <span style="font-size: 12px; color: #ffffff; font-weight: 500;">142 viendo</span>
+          </div>
+        </div>
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+          <div style="width: 84px; height: 84px; border-radius: 50%; background: rgba(255,255,255,0.92); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <svg width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5.5v13l11-6.5z" fill="#00527A"></path></svg>
+          </div>
+        </div>
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,20,32,0.75)); padding: 40px 20px 16px 20px; display: flex; align-items: center; gap: 16px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="7" y="5" width="3.5" height="14" rx="1" fill="#ffffff"></rect><rect x="13.5" y="5" width="3.5" height="14" rx="1" fill="#ffffff"></rect></svg>
+          <div style="flex: 1; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.3); position: relative;">
+            <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 82%; border-radius: 3px; background: #DC8158;"></div>
+          </div>
+          <div style="font-size: 12px; color: #ffffff; font-weight: 500;">07:42 · Manta (GMT-5)</div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 9h4l5-4v14l-5-4H4z" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"></path><path d="M17 9c1.5 1.5 1.5 4.5 0 6" stroke="#ffffff" stroke-width="2" stroke-linecap="round"></path></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4" stroke="#ffffff" stroke-width="2" stroke-linecap="round"></path></svg>
+        </div>
+      </div>
+
+      <!-- Camera angles -->
+      <div style="display: flex; gap: 14px;">
+        <div style="flex: 1; display: flex; align-items: center; gap: 12px; background: #ffffff; border: 2px solid #00527A; border-radius: 14px; padding: 12px 14px;">
+          <div style="width: 74px; height: 46px; border-radius: 8px; background: linear-gradient(160deg, #7FB4CC, #16688E);"></div>
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 14px; color: #003A57;">Cámara Norte</div>
+            <div style="font-size: 12px; color: #2EAA6B; font-weight: 600;">Reproduciendo</div>
+          </div>
+        </div>
+        <div style="flex: 1; display: flex; align-items: center; gap: 12px; background: #ffffff; border: 1px solid rgba(0,82,122,0.15); border-radius: 14px; padding: 12px 14px;">
+          <div style="width: 74px; height: 46px; border-radius: 8px; background: linear-gradient(160deg, #93C0D5, #1E729A);"></div>
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 14px; color: #003A57;">Cámara Point</div>
+            <div style="font-size: 12px; color: #6B7B85;">En vivo</div>
+          </div>
+        </div>
+        <div style="flex: 1; display: flex; align-items: center; gap: 12px; background: #F4F7F9; border: 1px solid rgba(0,82,122,0.12); border-radius: 14px; padding: 12px 14px;">
+          <div style="width: 74px; height: 46px; border-radius: 8px; background: linear-gradient(160deg, #5E8296, #2B4F63); display: flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#ffffff" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="#ffffff" stroke-width="2"></path></svg>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 14px; color: #003A57;">Repetición 24 h</div>
+            <div style="font-size: 12px; color: #DC8158; font-weight: 600;">Solo suscripción</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Forecast sidebar -->
+    <div style="width: 400px; flex-shrink: 0; display: flex; flex-direction: column; gap: 18px;">
+      <div style="background: #003A57; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 18px; color: #ffffff;">Condiciones ahora</div>
+          <div style="font-size: 12px; color: rgba(255,255,255,0.55);">07:40 · hoy</div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+          <div style="background: rgba(255,255,255,0.08); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.5px;">OLAS</div>
+            <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 26px; color: #ffffff;">1.4 m</div>
+            <div style="font-size: 12px; color: #7FD8F0;">Periodo 14 s · SO</div>
+          </div>
+          <div style="background: rgba(255,255,255,0.08); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.5px;">VIENTO</div>
+            <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 26px; color: #ffffff;">8 kn</div>
+            <div style="font-size: 12px; color: #2EAA6B; font-weight: 600;">Offshore · E</div>
+          </div>
+          <div style="background: rgba(255,255,255,0.08); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.5px;">MAREA</div>
+            <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 26px; color: #ffffff;">1.1 m</div>
+            <div style="font-size: 12px; color: #7FD8F0;">Subiendo · alta 14:20</div>
+          </div>
+          <div style="background: rgba(255,255,255,0.08); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.5px;">AGUA</div>
+            <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 26px; color: #ffffff;">24°</div>
+            <div style="font-size: 12px; color: rgba(255,255,255,0.6);">Lycra corta</div>
+          </div>
+        </div>
+        <!-- Tide curve -->
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.5px;">MAREA HOY</div>
+          <svg width="352" height="72" viewBox="0 0 352 72" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 56C36 56 44 16 88 16s52 44 96 44 52-44 96-44 48 34 72 38" stroke="#7FD8F0" stroke-width="2.5" fill="none" stroke-linecap="round"></path>
+            <path d="M0 56C36 56 44 16 88 16s52 44 96 44 52-44 96-44 48 34 72 38V72H0z" fill="#7FD8F0" fill-opacity="0.15"></path>
+            <circle cx="120" cy="38" r="5" fill="#DC8158"></circle>
+            <text x="8" y="14" font-family="Inter, sans-serif" font-size="10" fill="#9FCFE0">06:00</text>
+            <text x="160" y="14" font-family="Inter, sans-serif" font-size="10" fill="#9FCFE0">12:00</text>
+            <text x="312" y="14" font-family="Inter, sans-serif" font-size="10" fill="#9FCFE0">18:00</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 7 day forecast -->
+      <div style="background: #ffffff; border: 1px solid rgba(0,82,122,0.12); border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 17px; color: #003A57;">Próximos 7 días</div>
+          <div style="display: flex; align-items: center; gap: 5px; background: #EFDEB1; border-radius: 12px; padding: 5px 10px 4px 10px;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.5 6.8L12 16.8 5.9 20.3l1.5-6.8L2.2 8.9l6.9-.6z" fill="#8A6D3B"></path></svg>
+            <span style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 11px; color: #8A6D3B;">PREMIUM</span>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 12px; background: #F4F7F9;">
+            <div style="width: 44px; font-size: 13px; font-weight: 600; color: #003A57;">Hoy</div>
+            <div style="flex: 1; height: 8px; border-radius: 4px; background: rgba(0,82,122,0.10); position: relative;"><div style="position: absolute; left: 0; top: 0; bottom: 0; width: 55%; border-radius: 4px; background: #2EAA6B;"></div></div>
+            <div style="width: 46px; font-size: 13px; font-weight: 600; color: #003A57; text-align: right;">1.4 m</div>
+            <div style="width: 60px; font-size: 12px; color: #2EAA6B; font-weight: 600; text-align: right;">Buenas</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 12px;">
+            <div style="width: 44px; font-size: 13px; font-weight: 600; color: #003A57;">Mar</div>
+            <div style="flex: 1; height: 8px; border-radius: 4px; background: rgba(0,82,122,0.10); position: relative;"><div style="position: absolute; left: 0; top: 0; bottom: 0; width: 70%; border-radius: 4px; background: #2EAA6B;"></div></div>
+            <div style="width: 46px; font-size: 13px; font-weight: 600; color: #003A57; text-align: right;">1.8 m</div>
+            <div style="width: 60px; font-size: 12px; color: #2EAA6B; font-weight: 600; text-align: right;">Épicas</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 12px;">
+            <div style="width: 44px; font-size: 13px; font-weight: 600; color: #003A57;">Mié</div>
+            <div style="flex: 1; height: 8px; border-radius: 4px; background: rgba(0,82,122,0.10); position: relative;"><div style="position: absolute; left: 0; top: 0; bottom: 0; width: 45%; border-radius: 4px; background: #E8B84A;"></div></div>
+            <div style="width: 46px; font-size: 13px; font-weight: 600; color: #003A57; text-align: right;">1.1 m</div>
+            <div style="width: 60px; font-size: 12px; color: #B08A2E; font-weight: 600; text-align: right;">Regular</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 12px;">
+            <div style="width: 44px; font-size: 13px; font-weight: 600; color: #003A57;">Jue</div>
+            <div style="flex: 1; height: 8px; border-radius: 4px; background: rgba(0,82,122,0.10); position: relative;"><div style="position: absolute; left: 0; top: 0; bottom: 0; width: 62%; border-radius: 4px; background: #2EAA6B;"></div></div>
+            <div style="width: 46px; font-size: 13px; font-weight: 600; color: #003A57; text-align: right;">1.6 m</div>
+            <div style="width: 60px; font-size: 12px; color: #2EAA6B; font-weight: 600; text-align: right;">Buenas</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 12px; position: relative; overflow: hidden;">
+            <div style="width: 44px; font-size: 13px; font-weight: 600; color: rgba(0,58,87,0.35);">Vie</div>
+            <div style="flex: 1; height: 8px; border-radius: 4px; background: rgba(0,82,122,0.07);"></div>
+            <div style="width: 112px; display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#6B7B85" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="#6B7B85" stroke-width="2"></path></svg>
+              <span style="font-size: 12px; color: #6B7B85;">Con tu plan</span>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 12px;">
+            <div style="width: 44px; font-size: 13px; font-weight: 600; color: rgba(0,58,87,0.35);">Sáb</div>
+            <div style="flex: 1; height: 8px; border-radius: 4px; background: rgba(0,82,122,0.07);"></div>
+            <div style="width: 112px; display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#6B7B85" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="#6B7B85" stroke-width="2"></path></svg>
+              <span style="font-size: 12px; color: #6B7B85;">Con tu plan</span>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 12px;">
+            <div style="width: 44px; font-size: 13px; font-weight: 600; color: rgba(0,58,87,0.35);">Dom</div>
+            <div style="flex: 1; height: 8px; border-radius: 4px; background: rgba(0,82,122,0.07);"></div>
+            <div style="width: 112px; display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#6B7B85" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="#6B7B85" stroke-width="2"></path></svg>
+              <span style="font-size: 12px; color: #6B7B85;">Con tu plan</span>
+            </div>
+          </div>
+        </div>
+        <div style="background: #DC8158; color: #ffffff; border-radius: 22px; padding: 13px 0 11px 0; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; text-align: center;">Desbloquear 7 días completos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nearby cams -->
+  <div style="padding: 0 64px 56px 64px; display: flex; flex-direction: column; gap: 18px;">
+    <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 24px; color: #003A57;">Cámaras cerca</div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px;">
+      <div style="display: flex; align-items: center; gap: 12px; background: #ffffff; border: 1px solid rgba(0,82,122,0.12); border-radius: 14px; padding: 12px;">
+        <div style="width: 84px; height: 54px; border-radius: 9px; background: linear-gradient(160deg, #8FBFD6, #10618A); flex-shrink: 0;"></div>
+        <div style="display: flex; flex-direction: column; gap: 3px;">
+          <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; color: #003A57;">El Murciélago</div>
+          <div style="font-size: 12px; color: #6B7B85;">0.8 m · 6 km</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px; background: #ffffff; border: 1px solid rgba(0,82,122,0.12); border-radius: 14px; padding: 12px;">
+        <div style="width: 84px; height: 54px; border-radius: 9px; background: linear-gradient(160deg, #93C0D5, #145F88); flex-shrink: 0; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#ffffff" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="#ffffff" stroke-width="2"></path></svg></div>
+        <div style="display: flex; flex-direction: column; gap: 3px;">
+          <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; color: #003A57;">San Lorenzo</div>
+          <div style="font-size: 12px; color: #6B7B85;">1.6 m · 18 km</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px; background: #ffffff; border: 1px solid rgba(0,82,122,0.12); border-radius: 14px; padding: 12px;">
+        <div style="width: 84px; height: 54px; border-radius: 9px; background: linear-gradient(160deg, #A8CBDC, #1E729A); flex-shrink: 0;"></div>
+        <div style="display: flex; flex-direction: column; gap: 3px;">
+          <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; color: #003A57;">Santa Marianita</div>
+          <div style="font-size: 12px; color: #6B7B85;">1.1 m · 12 km</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px; background: #ffffff; border: 1px solid rgba(0,82,122,0.12); border-radius: 14px; padding: 12px;">
+        <div style="width: 84px; height: 54px; border-radius: 9px; background: linear-gradient(160deg, #9CC7DA, #0A4262); flex-shrink: 0; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#ffffff" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="#ffffff" stroke-width="2"></path></svg></div>
+        <div style="display: flex; flex-direction: column; gap: 3px;">
+          <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; color: #003A57;">El Faro II</div>
+          <div style="font-size: 12px; color: #6B7B85;">1.8 m · 24 km</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

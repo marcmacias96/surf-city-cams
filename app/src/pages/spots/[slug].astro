@@ -1,0 +1,362 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import AppNavbar from "@/components/AppNavbar.astro";
+import Footer from "@/components/Footer.astro";
+import CamSurface from "@/components/CamSurface.astro";
+import { spots, forecast7d, type Spot } from "@/data/spots";
+
+export function getStaticPaths() {
+  return spots.map((spot) => ({ params: { slug: spot.slug }, props: { spot } }));
+}
+
+interface Props {
+  spot: Spot;
+}
+const { spot } = Astro.props;
+
+/** Distancia real en km entre dos spots (haversine). */
+function haversineKm(a: Spot, b: Spot): number {
+  const R = 6371;
+  const rad = (v: number) => (v * Math.PI) / 180;
+  const dLat = rad(b.lat - a.lat);
+  const dLon = rad(b.lon - a.lon);
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+/** Los 4 spots más cercanos, con su distancia real. */
+const nearby = spots
+  .filter((s) => s.slug !== spot.slug)
+  .map((s) => ({ ...s, km: haversineKm(spot, s) }))
+  .sort((a, b) => a.km - b.km)
+  .slice(0, 4);
+
+/** Sin pase ni suscripción, solo los spots gratis se ven completos. */
+const locked = spot.access !== "gratis";
+
+/** Estilos del chip de condiciones según spot.conditions */
+const conditionChip: Record<Spot["conditions"], string> = {
+  "Épicas": "bg-success/15 text-success-ink",
+  "Buenas": "bg-success/10 text-success-ink",
+  "Regular": "bg-warning/20 text-warning-ink",
+  "Pobres": "bg-destructive/10 text-destructive",
+};
+
+/** Colores de barra/etiqueta del forecast según label */
+const forecastBar: Record<string, string> = {
+  "Épicas": "var(--success)",
+  "Buenas": "var(--success)",
+  "Regular": "var(--warning)",
+  "Pobres": "var(--destructive)",
+};
+const forecastText: Record<string, string> = {
+  "Épicas": "var(--success)",
+  "Buenas": "var(--success)",
+  "Regular": "var(--warning-ink)",
+  "Pobres": "var(--destructive)",
+};
+
+---
+
+<Layout title={spot.name}>
+  <AppNavbar active="camaras" />
+
+  <main class="bg-white" data-spot={spot.slug}>
+    <!-- Breadcrumb + título -->
+    <div class="mx-auto flex max-w-7xl flex-col gap-5 px-6 pb-5 pt-7 lg:flex-row lg:items-end lg:justify-between lg:px-10">
+      <div class="flex flex-col gap-2.5">
+        <div class="text-[13px] text-muted-foreground">
+          <a href="/app" class="font-semibold text-ocean hover:text-ocean-deep">Cámaras</a>
+          <span class="mx-2">/</span>{spot.localidad}
+          <span class="mx-2">/</span>{spot.name}
+        </div>
+        <div class="flex flex-wrap items-center gap-4">
+          <h1 class="font-heading text-3xl font-bold tracking-wide text-ocean-deep md:text-[40px]">{spot.name}</h1>
+          <div class="flex items-center gap-1.5 rounded-full bg-black/75 px-3.5 py-1.5">
+            <span class="live-dot inline-block size-[7px] rounded-full bg-[#E5484D]"></span>
+            <span class="font-heading text-xs font-bold tracking-[0.1em] text-white">EN VIVO</span>
+          </div>
+          <div class:list={["rounded-full px-3.5 py-1.5 font-heading text-xs font-bold tracking-wide", conditionChip[spot.conditions]]}>
+            CONDICIONES {spot.conditions.toUpperCase()}
+          </div>
+          <div class="rounded-full bg-ocean/10 px-3.5 py-1.5 font-heading text-xs font-bold tracking-wide text-ocean">
+            NIVEL {spot.nivel.toUpperCase()}
+          </div>
+          <div data-owned-chip class="hidden items-center gap-1.5 rounded-full bg-sand px-3.5 py-1.5">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M6 12.5l4 4 8-9" stroke="#6E5528" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <span data-owned-chip-text class="font-heading text-xs font-bold tracking-wide text-sand-dark">INCLUIDO EN TU PASE</span>
+          </div>
+        </div>
+        <p class="text-[15px] text-muted-foreground">{spot.description}</p>
+      </div>
+      <div class="flex flex-shrink-0 gap-2.5">
+        <button class="flex items-center gap-2 rounded-full bg-ocean/10 px-5 py-2.5 font-heading text-sm font-bold text-ocean transition-colors hover:bg-ocean/15" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z" stroke="currentColor" stroke-width="2"></path><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"></circle></svg>
+          Cómo llegar
+        </button>
+        <button class="flex items-center gap-2 rounded-full bg-ocean px-5 py-2.5 font-heading text-sm font-bold text-white transition-colors hover:bg-ocean-deep" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11z" stroke="currentColor" stroke-width="2"></path></svg>
+          Guardar spot
+        </button>
+      </div>
+    </div>
+
+    <!-- Player + sidebar -->
+    <div class="mx-auto flex max-w-7xl flex-col gap-7 px-6 pb-12 pt-2 lg:flex-row lg:items-start lg:px-10">
+
+      <!-- Player -->
+      <div class="flex min-w-0 flex-1 flex-col gap-5">
+        {locked && (
+          <div data-paywall>
+          <CamSurface
+            gradient={spot.gradient}
+            image={spot.image}
+            live={false}
+            class="h-[340px] rounded-[20px] shadow-[0_16px_44px_rgba(0,58,87,0.22)] md:h-[508px]"
+          >
+            <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-ocean-deep/45 px-6 text-center backdrop-blur-[3px]">
+              <div class="flex size-14 items-center justify-center rounded-full border-[1.5px] border-white/40 bg-white/15">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#ffffff" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="#ffffff" stroke-width="2"></path></svg>
+              </div>
+              <p class="font-heading text-xl font-bold text-white md:text-2xl">Esta cámara requiere un pase</p>
+              <p class="max-w-[400px] text-sm leading-relaxed text-white/75">Desbloquéala por el tiempo que necesites, o suscríbete y mira toda la costa sin límite.</p>
+              <div class="flex flex-col items-center gap-2.5 sm:flex-row">
+                <a href="/comprar" class="rounded-full bg-terracotta-dark px-6 py-3 font-heading text-[15px] font-bold text-white transition-colors hover:bg-terracotta">Desbloquear este spot · desde $1.49/24 h</a>
+                <a href="/planes" class="rounded-full border-[1.5px] border-white/50 bg-white/10 px-6 py-3 font-heading text-[15px] font-bold text-white transition-colors hover:bg-white/20">Ver todo con Local · $7.99/mes</a>
+              </div>
+            </div>
+            <div class="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-black/60 px-4 py-1.5">
+              <span class="live-dot inline-block size-2 rounded-full bg-destructive"></span>
+              <span class="font-heading text-[13px] font-bold tracking-[0.1em] text-white">EN VIVO · CÁMARA NORTE</span>
+            </div>
+            <div class="absolute right-4 top-4 flex items-center gap-1.5 rounded-full bg-black/60 px-3.5 py-1.5">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z" stroke="#ffffff" stroke-width="2"></path><circle cx="12" cy="12" r="2.5" stroke="#ffffff" stroke-width="2"></circle></svg>
+              <span class="text-xs font-medium text-white">{spot.viewers} viendo</span>
+            </div>
+          </CamSurface>
+          </div>
+        )}
+        <!-- Variante desbloqueada: oculta cuando hay paywall; el script de
+             sesión la revela si un pase o la suscripción cubren este spot. -->
+        <div data-paid class:list={[locked && "hidden"]}>
+          <CamSurface
+            gradient={spot.gradient}
+            image={spot.image}
+            live={false}
+            play
+            name={spot.name}
+            class="h-[340px] rounded-[20px] shadow-[0_16px_44px_rgba(0,58,87,0.22)] md:h-[508px]"
+          >
+            <div class="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-black/60 px-4 py-1.5">
+              <span class="live-dot inline-block size-2 rounded-full bg-destructive"></span>
+              <span class="font-heading text-[13px] font-bold tracking-[0.1em] text-white">EN VIVO · CÁMARA NORTE</span>
+            </div>
+            <div class="absolute right-4 top-4 flex gap-2">
+              <div class="rounded-full bg-black/60 px-3.5 py-1.5 text-xs font-medium text-white">1080p</div>
+              <div class="flex items-center gap-1.5 rounded-full bg-black/60 px-3.5 py-1.5">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z" stroke="#ffffff" stroke-width="2"></path><circle cx="12" cy="12" r="2.5" stroke="#ffffff" stroke-width="2"></circle></svg>
+                <span class="text-xs font-medium text-white">{spot.viewers} viendo</span>
+              </div>
+            </div>
+            <div class="absolute inset-x-0 bottom-0 flex items-center gap-4 bg-gradient-to-t from-[rgba(0,20,32,0.75)] to-transparent px-5 pb-4 pt-10">
+              <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><rect x="7" y="5" width="3.5" height="14" rx="1" fill="#ffffff"></rect><rect x="13.5" y="5" width="3.5" height="14" rx="1" fill="#ffffff"></rect></svg>
+              <div class="relative h-[5px] flex-1 rounded-full bg-white/30">
+                <div class="absolute inset-y-0 left-0 w-[82%] rounded-full bg-terracotta"></div>
+              </div>
+              <div class="hidden text-xs font-medium text-white sm:block">07:42 · Manta (GMT-5)</div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M4 9h4l5-4v14l-5-4H4z" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"></path><path d="M17 9c1.5 1.5 1.5 4.5 0 6" stroke="#ffffff" stroke-width="2" stroke-linecap="round"></path></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4" stroke="#ffffff" stroke-width="2" stroke-linecap="round"></path></svg>
+            </div>
+          </CamSurface>
+        </div>
+
+        <!-- Ángulos de cámara -->
+        <div class="grid grid-cols-1 gap-3.5 sm:grid-cols-3">
+          <div class="flex items-center gap-3 rounded-2xl border-2 border-ocean bg-white p-3">
+            <CamSurface gradient={spot.gradient} image={spot.image} live={false} class="h-[46px] w-[74px] flex-shrink-0 rounded-lg" />
+            <div class="flex flex-col gap-0.5">
+              <div class="font-heading text-sm font-bold text-ocean-deep">Cámara Norte</div>
+              <div class="text-xs font-semibold text-success">Reproduciendo</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 rounded-2xl border border-ocean/15 bg-white p-3">
+            <CamSurface gradient={spot.gradient} image={spot.image} live={false} class="h-[46px] w-[74px] flex-shrink-0 rounded-lg" />
+            <div class="flex flex-col gap-0.5">
+              <div class="font-heading text-sm font-bold text-ocean-deep">Cámara Point</div>
+              <div class="text-xs text-muted-foreground">En vivo</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 rounded-2xl border border-ocean/10 bg-mist p-3">
+            <div class="flex h-[46px] w-[74px] flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#5E8296] to-[#2B4F63]">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#ffffff" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="#ffffff" stroke-width="2"></path></svg>
+            </div>
+            <div class="flex flex-col gap-0.5">
+              <div class="font-heading text-sm font-bold text-ocean-deep">Repetición 24 h</div>
+              <div class="text-xs font-semibold text-terracotta">Solo suscripción</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="flex w-full flex-shrink-0 flex-col gap-4.5 lg:w-[400px]">
+
+        <!-- Condiciones ahora -->
+        <div class="flex flex-col gap-4.5 rounded-2xl bg-ocean-deep p-6">
+          <div class="flex items-center justify-between">
+            <div class="font-heading text-lg font-bold text-white">Condiciones ahora</div>
+            <div class="text-xs text-white/55">07:40 · hoy</div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="flex flex-col gap-1 rounded-xl bg-white/[0.08] p-3.5">
+              <div class="text-xs tracking-wide text-white/60">OLAS</div>
+              <div class="font-heading text-[22px] font-bold text-white sm:text-[26px]">{spot.waveM} m</div>
+              <div class="text-xs text-seafoam">Periodo {spot.periodS} s · {spot.swellDir}</div>
+            </div>
+            <div class="flex flex-col gap-1 rounded-xl bg-white/[0.08] p-3.5">
+              <div class="text-xs tracking-wide text-white/60">VIENTO</div>
+              <div class="font-heading text-[22px] font-bold text-white sm:text-[26px]">{spot.windKn} kn</div>
+              {spot.offshore ? (
+                <div class="text-xs font-semibold text-success">Offshore · {spot.windDir}</div>
+              ) : (
+                <div class="text-xs text-white/60">Onshore · {spot.windDir}</div>
+              )}
+            </div>
+            <div class="flex flex-col gap-1 overflow-hidden rounded-xl bg-white/[0.08] p-3.5">
+              <div class="flex items-center justify-between gap-2">
+                <div class="text-xs tracking-wide text-white/60">MAREA</div>
+                {locked && (
+                  <svg data-veil-lock width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2" stroke="rgba(255,255,255,0.7)" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="rgba(255,255,255,0.7)" stroke-width="2"></path></svg>
+                )}
+              </div>
+              <div data-veil={locked ? "" : undefined} class:list={["font-heading text-[17px] font-bold leading-tight text-white sm:text-[22px]", locked && "blur-[7px] opacity-70 select-none"]} aria-hidden={locked ? "true" : undefined}>{spot.tide}</div>
+              {locked && <span data-veil-lock class="sr-only">Marea disponible con pase o suscripción</span>}
+            </div>
+            <div class="flex flex-col gap-1 overflow-hidden rounded-xl bg-white/[0.08] p-3.5">
+              <div class="flex items-center justify-between gap-2">
+                <div class="text-xs tracking-wide text-white/60">AGUA</div>
+                {locked && (
+                  <svg data-veil-lock width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2" stroke="rgba(255,255,255,0.7)" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="rgba(255,255,255,0.7)" stroke-width="2"></path></svg>
+                )}
+              </div>
+              <div data-veil={locked ? "" : undefined} class:list={["font-heading text-[22px] font-bold text-white sm:text-[26px]", locked && "blur-[7px] opacity-70 select-none"]} aria-hidden={locked ? "true" : undefined}>{spot.waterC}°</div>
+              <div data-veil={locked ? "" : undefined} class:list={["text-xs text-white/60", locked && "blur-[5px] opacity-70 select-none"]} aria-hidden={locked ? "true" : undefined}>{spot.waterC >= 24 ? "Lycra corta" : "Lycra larga"}</div>
+              {locked && <span data-veil-lock class="sr-only">Temperatura del agua disponible con pase o suscripción</span>}
+            </div>
+          </div>
+          <!-- Curva de marea -->
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <div class="text-xs tracking-wide text-white/60">MAREA HOY</div>
+              {locked && (
+                <svg data-veil-lock width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2" stroke="rgba(255,255,255,0.7)" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="rgba(255,255,255,0.7)" stroke-width="2"></path></svg>
+              )}
+            </div>
+            <svg data-veil={locked ? "" : undefined} class:list={["h-auto w-full", locked && "blur-[6px] opacity-60 select-none"]} aria-hidden={locked ? "true" : undefined} viewBox="0 0 352 72" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 56C36 56 44 16 88 16s52 44 96 44 52-44 96-44 48 34 72 38" stroke="#7FD8F0" stroke-width="2.5" fill="none" stroke-linecap="round"></path>
+              <path d="M0 56C36 56 44 16 88 16s52 44 96 44 52-44 96-44 48 34 72 38V72H0z" fill="#7FD8F0" fill-opacity="0.15"></path>
+              <circle cx="120" cy="38" r="5" fill="#DC8158"></circle>
+              <text x="8" y="14" font-family="Inter, sans-serif" font-size="10" fill="#9FCFE0">06:00</text>
+              <text x="160" y="14" font-family="Inter, sans-serif" font-size="10" fill="#9FCFE0">12:00</text>
+              <text x="312" y="14" font-family="Inter, sans-serif" font-size="10" fill="#9FCFE0">18:00</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Próximos 7 días -->
+        <div class="flex flex-col gap-3.5 rounded-2xl border border-ocean/10 bg-white p-5">
+          <div class="flex items-center justify-between">
+            <div class="font-heading text-[17px] font-bold text-ocean-deep">Próximos 7 días</div>
+            <div class="flex items-center gap-1 rounded-full bg-sand px-2.5 py-1">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.5 6.8L12 16.8 5.9 20.3l1.5-6.8L2.2 8.9l6.9-.6z" fill="#8A6D3B"></path></svg>
+              <span class="font-heading text-[11px] font-bold text-sand-dark">PREMIUM</span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            {forecast7d.map((d) => (
+              d.locked ? (
+                <div class="flex items-center gap-3 rounded-xl px-3 py-2">
+                  <div class="w-11 text-[13px] font-semibold text-ocean-deep/35">{d.day}</div>
+                  <div class="h-2 flex-1 rounded-full bg-ocean/[0.07]"></div>
+                  <div class="flex w-28 items-center justify-end gap-1.5">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#5C6B75" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="#5C6B75" stroke-width="2"></path></svg>
+                    <span class="text-xs text-muted-foreground">Solo suscripción</span>
+                  </div>
+                </div>
+              ) : (
+                <div class:list={["flex items-center gap-3 rounded-xl px-3 py-2", d.day === "Hoy" && "bg-mist"]}>
+                  <div class="w-11 text-[13px] font-semibold text-ocean-deep">{d.day}</div>
+                  <div class="relative h-2 flex-1 rounded-full bg-ocean/10">
+                    <div class="absolute inset-y-0 left-0 rounded-full" style={`width: ${d.score}%; background: ${forecastBar[d.label ?? "Buenas"]}`}></div>
+                  </div>
+                  <div class="w-[46px] text-right text-[13px] font-semibold text-ocean-deep">{d.waveM} m</div>
+                  <div class="w-[60px] text-right text-xs font-semibold" style={`color: ${forecastText[d.label ?? "Buenas"]}`}>{d.label}</div>
+                </div>
+              )
+            ))}
+          </div>
+          <a href="/planes" class="rounded-full bg-terracotta-dark py-3 text-center font-heading text-[15px] font-bold text-white transition-colors hover:bg-terracotta">
+            Ver planes de suscripción
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cámaras cerca -->
+    <div class="mx-auto flex max-w-7xl flex-col gap-4.5 px-6 pb-14 lg:px-10">
+      <h2 class="font-heading text-2xl font-bold text-ocean-deep">Cámaras cerca</h2>
+      <div class="grid grid-cols-1 gap-4.5 sm:grid-cols-2 lg:grid-cols-4">
+        {nearby.map((s) => (
+          <a href={`/spots/${s.slug}`} class="flex items-center gap-3 rounded-2xl border border-ocean/10 bg-white p-3 transition-shadow hover:shadow-md">
+            <CamSurface gradient={s.gradient} image={s.image} live={false} class="h-[54px] w-[84px] flex-shrink-0 rounded-[9px]">
+              {s.access === "bloqueado" && (
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#ffffff" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="#ffffff" stroke-width="2"></path></svg>
+                </div>
+              )}
+            </CamSurface>
+            <div class="flex flex-col gap-0.5">
+              <div class="font-heading text-[15px] font-bold text-ocean-deep">{s.name}</div>
+              <div class="text-xs text-muted-foreground">{s.waveM} m · {s.km.toFixed(1)} km</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+
+  <script>
+    import { unlockInfo, remainingMs, fmtRemaining } from "@/lib/session";
+
+    // Si un pase activo (o la suscripción) cubre este spot, se retira el
+    // paywall renderizado en estático y se muestra la cámara como pagada.
+    const main = document.querySelector<HTMLElement>("main[data-spot]");
+    const slug = main?.dataset.spot;
+    if (slug) {
+      const info = unlockInfo(slug);
+      if (info) {
+        document.querySelectorAll("[data-paywall]").forEach((el) => el.remove());
+        document.querySelectorAll<HTMLElement>("[data-paid]").forEach((el) => el.classList.remove("hidden"));
+        document.querySelectorAll("[data-veil-lock]").forEach((el) => el.remove());
+        document.querySelectorAll<HTMLElement>("[data-veil]").forEach((el) => {
+          el.classList.remove("blur-[7px]", "blur-[6px]", "blur-[5px]", "opacity-70", "opacity-60", "select-none");
+          el.removeAttribute("aria-hidden");
+        });
+        const chip = document.querySelector<HTMLElement>("[data-owned-chip]");
+        const chipText = document.querySelector<HTMLElement>("[data-owned-chip-text]");
+        if (chip && chipText) {
+          chip.classList.remove("hidden");
+          chip.classList.add("flex");
+          chipText.textContent =
+            info.type === "sub"
+              ? `INCLUIDO EN TU PLAN ${info.name.toUpperCase()}`
+              : `PAGADO · TU PASE · QUEDAN ${fmtRemaining(remainingMs(info.pass)).toUpperCase()}`;
+        }
+      }
+    }
+  </script>
+
+  <Footer />
+</Layout>

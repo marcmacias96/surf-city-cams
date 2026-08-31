@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap">
+  <style>
+    body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: #F4F7F9; }
+    a { color: #00527A; text-decoration: none; } a:hover { color: #003A57; }
+  </style>
+</helmet>
+<div style="width: 1440px; background: #F4F7F9; display: flex; flex-direction: column;">
+
+  <!-- Top bar -->
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 64px; border-bottom: 1px solid rgba(0,82,122,0.10); background: #ffffff;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="19" cy="19" r="19" fill="#00527A"></circle><path d="M7 23c4-6 8.5-6.5 12.5-3.5S28 23 32 18.5" stroke="#ffffff" stroke-width="2.6" fill="none" stroke-linecap="round"></path><path d="M9 28c3-4 6.5-4.2 9.5-2.2s7.5 2 10.5-1.3" stroke="#7FD8F0" stroke-width="2" fill="none" stroke-linecap="round"></path></svg>
+      <div style="font-family: 'Josefin Sans', 'Trebuchet MS', sans-serif; font-weight: 700; font-size: 25px; color: #003A57; letter-spacing: 0.3px;">Surf<span style="color: #0E9DD8;">City</span> <span style="font-weight: 400; font-size: 15px; color: #6B7B85; letter-spacing: 1px;">CAMS</span></div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 32px; font-family: 'Josefin Sans', 'Trebuchet MS', sans-serif; font-weight: 600; font-size: 16px; color: #003A57;">
+      <div>Spots</div>
+      <div>Cámaras</div>
+      <div>Forecast</div>
+      <div style="color: #00527A; border-bottom: 2px solid #DC8158; padding-bottom: 2px;">Planes</div>
+    </div>
+    <div style="background: rgba(0,82,122,0.08); color: #00527A; border-radius: 24px; padding: 11px 22px 9px 22px; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px;">Iniciar sesión</div>
+  </div>
+
+  <!-- Header -->
+  <div style="padding: 56px 64px 36px 64px; display: flex; flex-direction: column; align-items: center; gap: 14px;">
+    <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 42px; color: #003A57; letter-spacing: 0.8px; text-align: center;">Elige cómo quieres ver el mar</div>
+    <div style="font-size: 17px; color: #6B7B85; text-align: center; max-width: 620px; line-height: 1.6;">Acceso total con suscripción, o pases puntuales por spot y por tiempo. Sin permanencia: cancela cuando quieras.</div>
+    <div style="display: flex; background: #ffffff; border: 1px solid rgba(0,82,122,0.15); border-radius: 26px; padding: 5px; margin-top: 8px;">
+      <div style="background: #00527A; color: #ffffff; border-radius: 20px; padding: 10px 26px 8px 26px; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px;">Mensual</div>
+      <div style="color: #00527A; border-radius: 20px; padding: 10px 26px 8px 26px; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px;">Anual <span style="color: #DC8158;">−25%</span></div>
+    </div>
+  </div>
+
+  <!-- Plan cards -->
+  <div style="padding: 8px 64px 24px 64px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; align-items: stretch;">
+
+    <!-- Pase flexible -->
+    <div style="background: #ffffff; border: 1px solid rgba(0,82,122,0.12); border-radius: 22px; padding: 32px 30px; display: flex; flex-direction: column; gap: 20px;">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7" width="18" height="12" rx="2.5" stroke="#00527A" stroke-width="2"></rect><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7M12 11v4M10 13h4" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path></svg>
+          <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 21px; color: #003A57;">Pase flexible</div>
+        </div>
+        <div style="font-size: 14px; color: #6B7B85; line-height: 1.5;">Pago por uso. Ideal si surfeas un fin de semana o un solo spot.</div>
+      </div>
+      <div style="display: flex; align-items: baseline; gap: 8px;">
+        <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 42px; color: #003A57;">$1.99</div>
+        <div style="font-size: 14px; color: #6B7B85;">desde · pago único</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;">
+        <div style="display: flex; align-items: center; gap: 10px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#2EAA6B" fill-opacity="0.14"></circle><path d="M7.5 12.5l3 3 6-6.5" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="font-size: 14px; color: #003A57;">1 spot por 24 h — <strong>$1.99</strong></span></div>
+        <div style="display: flex; align-items: center; gap: 10px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#2EAA6B" fill-opacity="0.14"></circle><path d="M7.5 12.5l3 3 6-6.5" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="font-size: 14px; color: #003A57;">2 spots por 48 h — <strong>$2.99</strong></span></div>
+        <div style="display: flex; align-items: center; gap: 10px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#2EAA6B" fill-opacity="0.14"></circle><path d="M7.5 12.5l3 3 6-6.5" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="font-size: 14px; color: #003A57;">Todos los spots por 7 días — <strong>$6.99</strong></span></div>
+        <div style="display: flex; align-items: center; gap: 10px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#2EAA6B" fill-opacity="0.14"></circle><path d="M7.5 12.5l3 3 6-6.5" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="font-size: 14px; color: #003A57;">Cámara en vivo + forecast 48 h</span></div>
+        <div style="display: flex; align-items: center; gap: 10px; opacity: 0.45;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#6B7B85" stroke-width="2"></circle><path d="M8 12h8" stroke="#6B7B85" stroke-width="2" stroke-linecap="round"></path></svg><span style="font-size: 14px; color: #6B7B85;">Sin rewind ni alertas</span></div>
+      </div>
+      <div style="border: 2px solid #00527A; color: #00527A; border-radius: 24px; padding: 13px 0 11px 0; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 16px; text-align: center;">Comprar un pase</div>
+    </div>
+
+    <!-- Local (destacado) -->
+    <div style="background: #003A57; border-radius: 22px; padding: 32px 30px; display: flex; flex-direction: column; gap: 20px; position: relative; box-shadow: 0 20px 50px rgba(0,58,87,0.30);">
+      <div style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: #DC8158; color: #ffffff; border-radius: 16px; padding: 7px 18px 5px 18px; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 1px;">MÁS POPULAR</div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 18c3-5 6-5 9-2.5S18 18 22 14" stroke="#7FD8F0" stroke-width="2" stroke-linecap="round"></path><path d="M13 9c2.5-4 6-4.5 9-2" stroke="#7FD8F0" stroke-width="2" stroke-linecap="round"></path></svg>
+          <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 21px; color: #ffffff;">Local</div>
+        </div>
+        <div style="font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.5;">Para quien revisa el mar todos los días antes de remar.</div>
+      </div>
+      <div style="display: flex; align-items: baseline; gap: 8px;">
+        <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 42px; color: #ffffff;">$7.99</div>
+        <div style="font-size: 14px; color: rgba(255,255,255,0.6);">/ mes</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;">
+        <div style="display: flex; align-items: center; gap: 10px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#7FD8F0" fill-opacity="0.18"></circle><path d="M7.5 12.5l3 3 6-6.5" stroke="#7FD8F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="font-size: 14px; color: #ffffff;">Todas las cámaras, sin límite</span></div>
+        <div style="display: flex; align-items: center; gap: 10px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#7FD8F0" fill-opacity="0.18"></circle><path d="M7.5 12.5l3 3 6-6.5" stroke="#7FD8F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="font-size: 14px; color: #ffffff;">Forecast completo a 7 días</span></div>
+        <div style="display: flex; align-items: center; gap: 10px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#7FD8F0" fill-opacity="0.18"></circle><path d="M7.5 12.5l3 3 6-6.5" stroke="#7FD8F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="font-size: 14px; color: #ffffff;">Repetición de 24 h en cada cámara</span></div>
+        <div style="display: flex; align-items: center; gap: 10px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#7FD8F0" fill-opacity="0.18"></circle><path d="M7.5 12.5l3 3 6-6.5" stroke="#7FD8F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="font-size: 14px; color: #ffffff;">Alertas de condiciones por spot</span></div>
+        <div style="display: flex; align-items: center; gap: 10px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#7FD8F0" fill-opacity="0.18"></circle><path d="M7.5 12.5l3 3 6-6.5" stroke="#7FD8F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="font-size: 14px; color: #ffffff;">Guía digital de Manabí incluida</span></div>
+      </div>
+      <div style="background: #DC8158; color: #ffffff; border-radius: 24px; padding: 13px 0 11px 0; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 16px; text-align: center;">Suscribirme</div>
+    </div>
+
+    <!-- Pro -->
+    <div style="background: #ffffff; border: 1px solid rgba(0,82,122,0.12); border-radius: 22px; padding: 32px 30px; display: flex; flex-direction: column; gap: 20px;">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.5 6.8L12 16.8 5.9 20.3l1.5-6.8L2.2 8.9l6.9-.6z" stroke="#DC8158" stroke-width="2" stroke-linejoin="round"></path></svg>
+          <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 21px; color: #003A57;">Pro</div>
+        </div>
+        <div style="font-size: 14px; color: #6B7B85; line-height: 1.5;">Para escuelas de surf, fotógrafos y organizadores de eventos.</div>
+      </div>
+      <div style="display: flex; align-items: baseline; gap: 8px;">
+        <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 42px; color: #003A57;">$14.99</div>
+        <div style="font-size: 14px; color: #6B7B85;">/ mes</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;">
+        <div style="display: flex; align-items: center; gap: 10px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#2EAA6B" fill-opacity="0.14"></circle><path d="M7.5 12.5l3 3 6-6.5" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="font-size: 14px; color: #003A57;">Todo lo del plan Local</span></div>
+        <div style="display: flex; align-items: center; gap: 10px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#2EAA6B" fill-opacity="0.14"></circle><path d="M7.5 12.5l3 3 6-6.5" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="font-size: 14px; color: #003A57;">Repetición de 7 días + clips descargables</span></div>
+        <div style="display: flex; align-items: center; gap: 10px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#2EAA6B" fill-opacity="0.14"></circle><path d="M7.5 12.5l3 3 6-6.5" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="font-size: 14px; color: #003A57;">Hasta 4 sesiones simultáneas</span></div>
+        <div style="display: flex; align-items: center; gap: 10px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#2EAA6B" fill-opacity="0.14"></circle><path d="M7.5 12.5l3 3 6-6.5" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="font-size: 14px; color: #003A57;">Guía Premium de Manabí incluida</span></div>
+      </div>
+      <div style="border: 2px solid #00527A; color: #00527A; border-radius: 24px; padding: 13px 0 11px 0; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 16px; text-align: center;">Elegir Pro</div>
+    </div>
+  </div>
+
+  <!-- Token explainer -->
+  <div style="margin: 24px 64px 56px 64px; background: #ffffff; border: 1px solid rgba(0,82,122,0.12); border-radius: 22px; padding: 36px 40px; display: flex; align-items: center; gap: 44px;">
+    <div style="display: flex; flex-direction: column; gap: 12px; width: 380px; flex-shrink: 0;">
+      <div style="display: inline-flex; align-items: center; gap: 8px; background: #EFDEB1; border-radius: 16px; padding: 7px 14px 5px 14px; align-self: flex-start;">
+        <span style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 12px; color: #8A6D3B; letter-spacing: 1px;">¿CÓMO FUNCIONA EL PASE?</span>
+      </div>
+      <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 26px; color: #003A57; line-height: 1.25;">Un token, tus spots, tu tiempo</div>
+      <div style="font-size: 15px; line-height: 1.65; color: #6B7B85;">Al comprar un pase recibes un token de acceso que se activa en tu primer uso. Elige los spots y la duración; cuando el tiempo termina, el token expira y puedes comprar otro o pasarte a la suscripción.</div>
+    </div>
+    <div style="flex: 1; display: flex; align-items: center; gap: 0;">
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(0,82,122,0.08); display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7" width="18" height="12" rx="2.5" stroke="#00527A" stroke-width="2"></rect><path d="M12 11v4M10 13h4" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path></svg></div>
+        <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; color: #003A57;">Compra tu pase</div>
+        <div style="font-size: 13px; color: #6B7B85; max-width: 170px;">Tarjeta, transferencia o pago móvil</div>
+      </div>
+      <svg width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg"><path d="M2 7h32M30 2l6 5-6 5" stroke="#DC8158" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(0,82,122,0.08); display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="#00527A" stroke-width="2"></circle><path d="M12 7v5l3.5 2" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path></svg></div>
+        <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; color: #003A57;">Se activa al usarlo</div>
+        <div style="font-size: 13px; color: #6B7B85; max-width: 170px;">El contador corre desde tu primera vista</div>
+      </div>
+      <svg width="40" height="14" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg"><path d="M2 7h32M30 2l6 5-6 5" stroke="#DC8158" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(0,82,122,0.08); display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 18c3-5 6-5 9-2.5S18 18 22 14" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path><path d="M13 9c2.5-4 6-4.5 9-2" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path></svg></div>
+        <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; color: #003A57;">Mira tus spots</div>
+        <div style="font-size: 13px; color: #6B7B85; max-width: 170px;">Cámara + forecast mientras dure el pase</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

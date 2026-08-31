@@ -1,0 +1,142 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Navbar from "@/components/Navbar.astro";
+import Footer from "@/components/Footer.astro";
+import CamSurface from "@/components/CamSurface.astro";
+import { spots } from "@/data/spots";
+
+const featured = spots.find((s) => s.slug === "el-sombrero")!;
+
+/** Teaser de marketing: 3 spots destacados con foto */
+const teaser = ["el-sombrero", "marianita", "san-jose"].map(
+  (slug) => spots.find((s) => s.slug === slug)!,
+);
+---
+
+<Layout title="Cámaras de surf en vivo">
+  <Navbar />
+
+  <main>
+    <!-- Hero -->
+    <section class="relative overflow-hidden bg-[linear-gradient(165deg,#062B40_0%,#003A57_40%,#00527A_78%,#0A6E96_100%)]">
+      <svg class="pointer-events-none absolute bottom-[-8px] left-0 w-full opacity-[0.14]" viewBox="0 0 1440 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M0 120c120-40 240-40 360-10s240 50 360 20 240-60 360-30 240 50 360 10v70H0z" fill="#7FD8F0"></path>
+      </svg>
+
+      <div class="relative mx-auto flex max-w-7xl flex-col items-center gap-12 px-6 py-16 lg:flex-row lg:gap-14 lg:px-10 lg:py-20">
+        <div class="flex flex-1 flex-col gap-5">
+          <div class="inline-flex items-center gap-2 self-start rounded-full border border-white/20 bg-white/10 px-4 py-1.5">
+            <span class="live-dot inline-block size-2 rounded-full bg-destructive"></span>
+            <span class="font-heading text-[13px] font-semibold tracking-[1.5px] text-white">9 CÁMARAS EN VIVO · MANTA Y MONTECRISTI, MANABÍ</span>
+          </div>
+          <h1 class="max-w-[560px] font-heading text-4xl font-bold leading-[1.1] tracking-wide text-white md:text-[54px]">
+            Las olas de Manabí, en vivo.
+          </h1>
+          <p class="max-w-[520px] text-lg leading-relaxed text-white/85">
+            Cámaras con vista a los mejores spots de Manta y Montecristi y reportes de forecast actualizados. Suscríbete o compra un pase por el tiempo que necesites.
+          </p>
+          <div class="mt-2 flex flex-wrap gap-3.5">
+            <a href="/login" class="rounded-full bg-terracotta-dark px-7 py-3.5 font-heading text-[17px] font-bold text-white transition-colors hover:bg-terracotta">Probar la demo</a>
+            <a href="/planes" class="rounded-full border-[1.5px] border-white/45 bg-white/10 px-7 py-3.5 font-heading text-[17px] font-bold text-white transition-colors hover:bg-white/20">Ver planes</a>
+          </div>
+          <p class="text-sm text-white/70">Pases desde $1.49 · Suscripción Local $7.99/mes</p>
+        </div>
+
+        <!-- Featured live cam card -->
+        <a href="/login?next=/spots/el-sombrero" class="block w-full max-w-[480px] overflow-hidden rounded-2xl bg-white shadow-[0_24px_60px_rgba(0,0,0,0.35)] lg:w-[480px]">
+          <CamSurface gradient={featured.gradient} image={featured.image} play name={featured.name} badge="HD · 1080p" class="h-[270px]" />
+          <div class="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex flex-col gap-0.5">
+              <span class="font-heading text-xl font-bold text-ocean-deep">{featured.name}</span>
+              <span class="text-[13px] text-muted-foreground">{featured.breakType} · {featured.localidad}, Manabí</span>
+            </div>
+            <div class="flex gap-2">
+              <span class="flex items-center gap-1.5 rounded-full bg-mist px-2.5 py-1">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M2 17c3-5 6-5 9-2.5S18 17 22 13" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path><path d="M13 9c2.5-4 6-4.5 9-2" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path></svg>
+                <span class="text-xs font-semibold text-ocean-deep">{featured.waveM.toFixed(1)} m</span>
+              </span>
+              <span class="flex items-center gap-1.5 rounded-full bg-mist px-2.5 py-1">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M3 8h9a3 3 0 1 0-3-3M3 12h13a3 3 0 1 1-3 3M3 16h6" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round"></path></svg>
+                <span class="text-xs font-semibold text-success-ink">Offshore</span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Teaser: 9 spots, una costa -->
+    <section class="mx-auto flex max-w-7xl flex-col gap-7 px-6 pb-6 pt-16 lg:px-10">
+      <div class="flex flex-col gap-2">
+        <h2 class="font-heading text-2xl font-bold tracking-wide text-ocean-deep md:text-[28px]">9 spots, una costa</h2>
+        <p class="text-base text-muted-foreground">De San Mateo a Montecristi: cada cámara con forecast de olas, viento y marea.</p>
+      </div>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {teaser.map((spot) => (
+          <a
+            href={`/login?next=/spots/${spot.slug}`}
+            class="group block overflow-hidden rounded-2xl border border-ocean/10 bg-white shadow-[0_8px_24px_rgba(0,58,87,0.08)] transition-shadow hover:shadow-[0_16px_40px_rgba(0,58,87,0.16)]"
+          >
+            <CamSurface
+              gradient={spot.gradient}
+              image={spot.image}
+              name={spot.name}
+              badge={spot.access === "premium" ? "PREMIUM" : spot.access === "gratis" ? "GRATIS" : "CON PASE"}
+              class="h-[200px]"
+            />
+            <div class="flex items-center justify-between gap-3 p-5">
+              <div class="flex flex-col gap-0.5">
+                <span class="font-heading text-lg font-bold text-ocean-deep">{spot.name}</span>
+                <span class="text-[13px] text-muted-foreground">{spot.breakType} · {spot.localidad}</span>
+              </div>
+              <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-ocean/[0.08] text-ocean transition-colors group-hover:bg-terracotta group-hover:text-white">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+      <a href="/login?next=/app" class="self-start font-heading text-[15px] font-bold text-ocean transition-colors hover:text-ocean-deep">
+        Ver los 9 spots en el mapa →
+      </a>
+    </section>
+
+    <!-- Paga solo por las olas -->
+    <section class="mx-auto max-w-7xl px-6 pb-16 pt-12 lg:px-10">
+      <div class="flex flex-col items-start gap-8 rounded-3xl bg-mist p-8 lg:flex-row lg:items-center lg:gap-12 lg:p-11">
+        <div class="flex flex-col gap-2.5 lg:w-[340px] lg:shrink-0">
+          <h2 class="font-heading text-[28px] font-bold leading-tight text-ocean-deep">Paga solo por las olas que vas a surfear</h2>
+          <p class="text-[15px] leading-relaxed text-muted-foreground">Suscripción mensual con acceso total, o pases por tiempo limitado para uno o varios spots.</p>
+        </div>
+        <div class="grid flex-1 grid-cols-1 gap-5 sm:grid-cols-3">
+          <div class="flex flex-col gap-2 rounded-2xl border border-ocean/10 bg-white p-5">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z" stroke="#00527A" stroke-width="2"></path><circle cx="12" cy="10" r="2.5" stroke="#00527A" stroke-width="2"></circle></svg>
+            <h3 class="font-heading text-base font-bold text-ocean-deep">1. Elige tu spot</h3>
+            <p class="text-[13px] leading-normal text-muted-foreground">Nueve cámaras a lo largo de la costa de Manta y Montecristi.</p>
+          </div>
+          <div class="flex flex-col gap-2 rounded-2xl border border-ocean/10 bg-white p-5">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="6" width="18" height="13" rx="2.5" stroke="#DC8158" stroke-width="2"></rect><path d="M3 10.5h18" stroke="#DC8158" stroke-width="2"></path></svg>
+            <h3 class="font-heading text-base font-bold text-ocean-deep">2. Pase o suscripción</h3>
+            <p class="text-[13px] leading-normal text-muted-foreground">Desde $1.49 por 24 horas, o todo Manabí por una mensualidad.</p>
+          </div>
+          <div class="flex flex-col gap-2 rounded-2xl border border-ocean/10 bg-white p-5">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 18c3-5 6-5 9-2.5S18 18 22 14" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round"></path><path d="M13 9c2.5-4 6-4.5 9-2" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round"></path></svg>
+            <h3 class="font-heading text-base font-bold text-ocean-deep">3. Surfea informado</h3>
+            <p class="text-[13px] leading-normal text-muted-foreground">Cámara en vivo + forecast de olas, viento y marea del spot.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA final -->
+    <section class="bg-ocean-deep">
+      <div class="mx-auto flex max-w-7xl flex-col items-center gap-5 px-6 py-14 text-center lg:px-10">
+        <h2 class="font-heading text-3xl font-bold tracking-wide text-white md:text-[34px]">¿Listo para revisar el mar?</h2>
+        <p class="max-w-[480px] text-base leading-relaxed text-white/75">Entra a la demo y mira las 9 cámaras con su forecast. Sin contraseña, sin datos reales.</p>
+        <a href="/login" class="rounded-full bg-terracotta-dark px-8 py-3.5 font-heading text-[17px] font-bold text-white transition-colors hover:bg-terracotta">Entrar a la demo</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

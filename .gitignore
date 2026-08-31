@@ -1,0 +1,15 @@
+# Dependencias y builds del app (Astro)
+app/node_modules/
+app/dist/
+app/.astro/
+
+# Vercel y entorno local
+app/.vercel/
+app/.env.local
+app/.env*.local
+
+# Artefacto generado del lienzo de diseño (se regenera con seed-canvas)
+surfcity-cams.html
+
+# Sistema
+.DS_Store

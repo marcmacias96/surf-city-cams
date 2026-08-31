@@ -1,0 +1,13 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1440, "h": 1980, "title": "Home · Cámaras" },
+    { "file": "DetalleSpot.dc.html", "x": 1560, "y": 0, "w": 1440, "h": 1560, "title": "Detalle de spot" },
+    { "file": "Planes.dc.html", "x": 0, "y": 2120, "w": 1440, "h": 1500, "title": "Planes" },
+    { "file": "CompraPase.dc.html", "x": 1560, "y": 2120, "w": 1440, "h": 900, "title": "Compra de pase" },
+    { "file": "MiCuenta.dc.html", "x": 0, "y": 3760, "w": 1440, "h": 940, "title": "Mi cuenta" }
+  ],
+  "annotations": [
+    { "id": "flujo-general", "x": 0, "y": -170, "w": 560, "text": "Flujo: Home (cámaras) → Detalle de spot → Planes → Compra de pase → Mi cuenta.\nLos precios y datos de forecast son de ejemplo — ajustar a la estrategia real de SurfCity." }
+  ],
+  "launch": { "view": "canvas" }
+}

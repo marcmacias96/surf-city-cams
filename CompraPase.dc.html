@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap">
+  <style>
+    body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: #F4F7F9; }
+    a { color: #00527A; text-decoration: none; } a:hover { color: #003A57; }
+  </style>
+</helmet>
+<div style="width: 1440px; background: #F4F7F9; display: flex; flex-direction: column;">
+
+  <!-- Top bar -->
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 64px; border-bottom: 1px solid rgba(0,82,122,0.10); background: #ffffff;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="19" cy="19" r="19" fill="#00527A"></circle><path d="M7 23c4-6 8.5-6.5 12.5-3.5S28 23 32 18.5" stroke="#ffffff" stroke-width="2.6" fill="none" stroke-linecap="round"></path><path d="M9 28c3-4 6.5-4.2 9.5-2.2s7.5 2 10.5-1.3" stroke="#7FD8F0" stroke-width="2" fill="none" stroke-linecap="round"></path></svg>
+      <div style="font-family: 'Josefin Sans', 'Trebuchet MS', sans-serif; font-weight: 700; font-size: 25px; color: #003A57; letter-spacing: 0.3px;">Surf<span style="color: #0E9DD8;">City</span> <span style="font-weight: 400; font-size: 15px; color: #6B7B85; letter-spacing: 1px;">CAMS</span></div>
+    </div>
+    <!-- Stepper -->
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div style="width: 28px; height: 28px; border-radius: 50%; background: #2EAA6B; color: #ffffff; display: flex; align-items: center; justify-content: center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 12.5l4 4 8-9" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+        <span style="font-family: 'Josefin Sans', sans-serif; font-weight: 600; font-size: 14px; color: #2EAA6B;">Spots</span>
+      </div>
+      <div style="width: 36px; height: 2px; background: #2EAA6B;"></div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div style="width: 28px; height: 28px; border-radius: 50%; background: #00527A; color: #ffffff; display: flex; align-items: center; justify-content: center; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 14px; padding-top: 2px;">2</div>
+        <span style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 14px; color: #00527A;">Duración</span>
+      </div>
+      <div style="width: 36px; height: 2px; background: rgba(0,82,122,0.18);"></div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(0,82,122,0.10); color: #6B7B85; display: flex; align-items: center; justify-content: center; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 14px; padding-top: 2px;">3</div>
+        <span style="font-family: 'Josefin Sans', sans-serif; font-weight: 600; font-size: 14px; color: #6B7B85;">Pago</span>
+      </div>
+    </div>
+    <div style="font-size: 14px; color: #6B7B85;">¿Ayuda?</div>
+  </div>
+
+  <!-- Body -->
+  <div style="padding: 44px 64px 56px 64px; display: flex; gap: 32px; align-items: flex-start;">
+
+    <!-- Selection -->
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 28px;">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 32px; color: #003A57;">Arma tu pase</div>
+        <div style="font-size: 15px; color: #6B7B85;">Elige los spots que quieres desbloquear y por cuánto tiempo.</div>
+      </div>
+
+      <!-- Spots seleccionables -->
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 17px; color: #003A57;">Spots <span style="font-weight: 400; color: #6B7B85; font-size: 14px;">· 2 seleccionados</span></div>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;">
+          <!-- selected -->
+          <div style="position: relative; background: #ffffff; border: 2px solid #00527A; border-radius: 16px; padding: 14px; display: flex; align-items: center; gap: 12px; box-shadow: 0 6px 18px rgba(0,82,122,0.12);">
+            <div style="width: 64px; height: 44px; border-radius: 8px; background: linear-gradient(160deg, #A8CBDC, #16688E); flex-shrink: 0;"></div>
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; color: #003A57;">San Mateo</div>
+              <div style="font-size: 12px; color: #6B7B85;">Point · Manta</div>
+            </div>
+            <div style="position: absolute; top: -9px; right: -9px; width: 26px; height: 26px; border-radius: 50%; background: #2EAA6B; border: 2.5px solid #F4F7F9; display: flex; align-items: center; justify-content: center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 12.5l4 4 8-9" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          </div>
+          <!-- selected -->
+          <div style="position: relative; background: #ffffff; border: 2px solid #00527A; border-radius: 16px; padding: 14px; display: flex; align-items: center; gap: 12px; box-shadow: 0 6px 18px rgba(0,82,122,0.12);">
+            <div style="width: 64px; height: 44px; border-radius: 8px; background: linear-gradient(160deg, #93C0D5, #1E729A); flex-shrink: 0;"></div>
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; color: #003A57;">San Lorenzo</div>
+              <div style="font-size: 12px; color: #6B7B85;">Point · Manta</div>
+            </div>
+            <div style="position: absolute; top: -9px; right: -9px; width: 26px; height: 26px; border-radius: 50%; background: #2EAA6B; border: 2.5px solid #F4F7F9; display: flex; align-items: center; justify-content: center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 12.5l4 4 8-9" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          </div>
+          <div style="background: #ffffff; border: 1px solid rgba(0,82,122,0.15); border-radius: 16px; padding: 14px; display: flex; align-items: center; gap: 12px;">
+            <div style="width: 64px; height: 44px; border-radius: 8px; background: linear-gradient(160deg, #8FBFD6, #10618A); flex-shrink: 0;"></div>
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; color: #003A57;">El Murciélago</div>
+              <div style="font-size: 12px; color: #6B7B85;">Beach · Manta</div>
+            </div>
+          </div>
+          <div style="background: #ffffff; border: 1px solid rgba(0,82,122,0.15); border-radius: 16px; padding: 14px; display: flex; align-items: center; gap: 12px;">
+            <div style="width: 64px; height: 44px; border-radius: 8px; background: linear-gradient(160deg, #B7D6E3, #1E729A); flex-shrink: 0;"></div>
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; color: #003A57;">Santa Marianita</div>
+              <div style="font-size: 12px; color: #6B7B85;">Beach · Manta</div>
+            </div>
+          </div>
+          <div style="background: #ffffff; border: 1px solid rgba(0,82,122,0.15); border-radius: 16px; padding: 14px; display: flex; align-items: center; gap: 12px;">
+            <div style="width: 64px; height: 44px; border-radius: 8px; background: linear-gradient(160deg, #9CC7DA, #0A4262); flex-shrink: 0;"></div>
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; color: #003A57;">El Faro II</div>
+              <div style="font-size: 12px; color: #6B7B85;">Reef · Montecristi</div>
+            </div>
+          </div>
+          <div style="background: #ffffff; border: 1px solid rgba(0,82,122,0.15); border-radius: 16px; padding: 14px; display: flex; align-items: center; gap: 12px;">
+            <div style="width: 64px; height: 44px; border-radius: 8px; background: linear-gradient(160deg, #A0C9DB, #145F88); flex-shrink: 0;"></div>
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 15px; color: #003A57;">San José</div>
+              <div style="font-size: 12px; color: #6B7B85;">Point · Montecristi</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Duración -->
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 17px; color: #003A57;">Duración</div>
+        <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px;">
+          <div style="background: #ffffff; border: 1px solid rgba(0,82,122,0.15); border-radius: 16px; padding: 18px 16px; display: flex; flex-direction: column; gap: 4px; text-align: center;">
+            <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 20px; color: #003A57;">24 h</div>
+            <div style="font-size: 13px; color: #6B7B85;">Sesión del día</div>
+          </div>
+          <div style="position: relative; background: #ffffff; border: 2px solid #00527A; border-radius: 16px; padding: 18px 16px; display: flex; flex-direction: column; gap: 4px; text-align: center; box-shadow: 0 6px 18px rgba(0,82,122,0.12);">
+            <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 20px; color: #00527A;">48 h</div>
+            <div style="font-size: 13px; color: #6B7B85;">Fin de semana</div>
+            <div style="position: absolute; top: -9px; right: -9px; width: 26px; height: 26px; border-radius: 50%; background: #2EAA6B; border: 2.5px solid #F4F7F9; display: flex; align-items: center; justify-content: center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 12.5l4 4 8-9" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          </div>
+          <div style="background: #ffffff; border: 1px solid rgba(0,82,122,0.15); border-radius: 16px; padding: 18px 16px; display: flex; flex-direction: column; gap: 4px; text-align: center;">
+            <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 20px; color: #003A57;">7 días</div>
+            <div style="font-size: 13px; color: #6B7B85;">Viaje de surf</div>
+          </div>
+          <div style="background: #ffffff; border: 1px solid rgba(0,82,122,0.15); border-radius: 16px; padding: 18px 16px; display: flex; flex-direction: column; gap: 4px; text-align: center;">
+            <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 20px; color: #003A57;">15 días</div>
+            <div style="font-size: 13px; color: #6B7B85;">Temporada</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div style="width: 380px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px;">
+      <div style="background: #ffffff; border-radius: 20px; padding: 26px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 12px 34px rgba(0,58,87,0.10); border: 1px solid rgba(0,82,122,0.10);">
+        <div style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 19px; color: #003A57;">Tu pase</div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-size: 14px; color: #6B7B85;">Spots</span>
+            <span style="font-size: 14px; font-weight: 600; color: #003A57;">San Mateo + San Lorenzo</span>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-size: 14px; color: #6B7B85;">Duración</span>
+            <span style="font-size: 14px; font-weight: 600; color: #003A57;">48 horas</span>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-size: 14px; color: #6B7B85;">Incluye</span>
+            <span style="font-size: 14px; font-weight: 600; color: #003A57;">Cámara + forecast 48 h</span>
+          </div>
+          <div style="height: 1px; background: rgba(0,82,122,0.12); margin: 4px 0;"></div>
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-size: 14px; color: #6B7B85;">2 spots × 48 h ($1.99 c/u)</span>
+            <span style="font-size: 14px; font-weight: 600; color: #003A57;">$3.98</span>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-size: 14px; color: #2EAA6B;">Precio de paquete −25%</span>
+            <span style="font-size: 14px; font-weight: 600; color: #2EAA6B;">−$0.99</span>
+          </div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 6px;">
+            <span style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 17px; color: #003A57;">Total</span>
+            <span style="font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 30px; color: #003A57;">$2.99</span>
+          </div>
+        </div>
+        <div style="background: #DC8158; color: #ffffff; border-radius: 24px; padding: 14px 0 12px 0; font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 16px; text-align: center;">Continuar al pago</div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 7px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#6B7B85" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="#6B7B85" stroke-width="2"></path></svg>
+          <span style="font-size: 12px; color: #6B7B85;">Pago seguro · Tarjeta, transferencia o pago móvil</span>
+        </div>
+      </div>
+      <div style="background: rgba(0,82,122,0.06); border: 1px dashed rgba(0,82,122,0.30); border-radius: 16px; padding: 16px 18px; display: flex; align-items: center; gap: 12px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 18c3-5 6-5 9-2.5S18 18 22 14" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path><path d="M13 9c2.5-4 6-4.5 9-2" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path></svg>
+        <div style="font-size: 13px; line-height: 1.5; color: #003A57;">Con el plan <strong>Local ($7.99/mes)</strong> tendrías todos los spots, siempre. <span style="color: #DC8158; font-weight: 600;">Comparar</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

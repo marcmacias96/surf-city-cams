@@ -1,0 +1,187 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/josefin-sans";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: 'Josefin Sans Variable', 'Trebuchet MS', sans-serif;
+    --font-sans: 'Inter Variable', system-ui, sans-serif;
+    --color-ocean: var(--ocean);
+    --color-ocean-deep: var(--ocean-deep);
+    --color-terracotta: var(--terracotta);
+    --color-terracotta-dark: var(--terracotta-dark);
+    --color-sand: var(--sand);
+    --color-sand-dark: var(--sand-dark);
+    --color-mist: var(--mist);
+    --color-seafoam: var(--seafoam);
+    --color-success: var(--success);
+    --color-success-ink: var(--success-ink);
+    --color-success-light: var(--success-light);
+    --color-warning: var(--warning);
+    --color-warning-ink: var(--warning-ink);
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+    /* SurfCity Ecuador brand tokens (extracted from surfcityecuador.com) */
+    --ocean: #00527A;
+    --ocean-deep: #003A57;
+    --terracotta: #DC8158;
+    --terracotta-dark: #C56A42;
+    --sand: #EFDEB1;
+    --sand-dark: #6E5528;
+    --mist: #F4F7F9;
+    --seafoam: #7FD8F0;
+    --success: #2EAA6B;
+    --success-ink: #1E7A4C;
+    --success-light: #6FE3A5;
+    --warning: #E8B84A;
+    --warning-ink: #B08A2E;
+
+    --background: #ffffff;
+    --foreground: #003A57;
+    --card: #ffffff;
+    --card-foreground: #003A57;
+    --popover: #ffffff;
+    --popover-foreground: #003A57;
+    --primary: #00527A;
+    --primary-foreground: #ffffff;
+    --secondary: #E8F0F5;
+    --secondary-foreground: #00527A;
+    --muted: #F4F7F9;
+    --muted-foreground: #5C6B75;
+    --accent: #F4F7F9;
+    --accent-foreground: #003A57;
+    --destructive: #E5484D;
+    --border: #D9E4EA;
+    --input: #D9E4EA;
+    --ring: #00527A;
+    --chart-1: #00527A;
+    --chart-2: #7FD8F0;
+    --chart-3: #DC8158;
+    --chart-4: #2EAA6B;
+    --chart-5: #EFDEB1;
+    --radius: 0.875rem;
+    --sidebar: #F4F7F9;
+    --sidebar-foreground: #003A57;
+    --sidebar-primary: #00527A;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #E8F0F5;
+    --sidebar-accent-foreground: #00527A;
+    --sidebar-border: #D9E4EA;
+    --sidebar-ring: #00527A;
+}
+
+.dark {
+    --background: #062B40;
+    --foreground: #E9F4F9;
+    --card: #003A57;
+    --card-foreground: #E9F4F9;
+    --popover: #003A57;
+    --popover-foreground: #E9F4F9;
+    --primary: #7FD8F0;
+    --primary-foreground: #003A57;
+    --secondary: #0B4B6E;
+    --secondary-foreground: #E9F4F9;
+    --muted: #0B4B6E;
+    --muted-foreground: #9FCFE0;
+    --accent: #0B4B6E;
+    --accent-foreground: #E9F4F9;
+    --destructive: #E5484D;
+    --border: rgba(255, 255, 255, 0.12);
+    --input: rgba(255, 255, 255, 0.16);
+    --ring: #7FD8F0;
+    --chart-1: #7FD8F0;
+    --chart-2: #00527A;
+    --chart-3: #DC8158;
+    --chart-4: #2EAA6B;
+    --chart-5: #EFDEB1;
+    --sidebar: #003A57;
+    --sidebar-foreground: #E9F4F9;
+    --sidebar-primary: #7FD8F0;
+    --sidebar-primary-foreground: #003A57;
+    --sidebar-accent: #0B4B6E;
+    --sidebar-accent-foreground: #E9F4F9;
+    --sidebar-border: rgba(255, 255, 255, 0.12);
+    --sidebar-ring: #7FD8F0;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    }
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    }
+  /* Anillo de foco visible y consistente (mismo patrón que public/mapa.html) */
+  :where(a, button, [role="button"], [tabindex="0"], input, select, textarea):focus-visible {
+    outline: 2px solid var(--terracotta);
+    outline-offset: 2px;
+    }
+}
+
+/* Simulated live-cam surface: layered animated gradients standing in for video */
+@keyframes cam-drift {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-3%); }
+  100% { transform: translateX(0); }
+}
+@keyframes cam-swell {
+  0%, 100% { transform: translateY(0) scaleY(1); opacity: 0.5; }
+  50% { transform: translateY(-6px) scaleY(1.06); opacity: 0.65; }
+}
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.cam-wave { animation: cam-swell 6s ease-in-out infinite; }
+.cam-wave-slow { animation: cam-swell 9s ease-in-out infinite; animation-delay: -3s; }
+.live-dot { animation: live-pulse 1.6s ease-in-out infinite; }

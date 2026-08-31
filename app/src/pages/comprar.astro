@@ -1,0 +1,89 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Logo from "@/components/Logo.astro";
+import Footer from "@/components/Footer.astro";
+import PassBuilder from "@/components/comprar/PassBuilder";
+---
+
+<Layout title="Comprar pase">
+  <!-- Guardia de sesión: comprar es parte de la plataforma -->
+  <script>
+    import { getUser } from "@/lib/session";
+    if (!getUser()) {
+      window.location.replace("/login?next=" + encodeURIComponent(location.pathname));
+    }
+  </script>
+
+  <div class="flex min-h-screen flex-col bg-mist">
+    <!-- Barra de checkout: Logo + stepper + ayuda -->
+    <header class="sticky top-0 z-50 border-b border-ocean/10 bg-white/90 backdrop-blur">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5 lg:px-10">
+        <Logo href="/app" />
+        <!-- Stepper: refleja el paso real del builder (evento "sc-paso") -->
+        <div id="stepper" class="hidden items-center gap-3.5 md:flex">
+          <div class="flex items-center gap-2" data-paso="1">
+            <span class="paso-dot flex size-7 items-center justify-center rounded-full pt-0.5 font-heading text-sm font-bold"></span>
+            <span class="paso-label font-heading text-sm font-semibold">Arma tu pase</span>
+          </div>
+          <div class="h-0.5 w-9 bg-ocean/20" data-linea="1"></div>
+          <div class="flex items-center gap-2" data-paso="2">
+            <span class="paso-dot flex size-7 items-center justify-center rounded-full pt-0.5 font-heading text-sm font-bold"></span>
+            <span class="paso-label font-heading text-sm font-semibold">Pago</span>
+          </div>
+          <div class="h-0.5 w-9 bg-ocean/20" data-linea="2"></div>
+          <div class="flex items-center gap-2" data-paso="3">
+            <span class="paso-dot flex size-7 items-center justify-center rounded-full pt-0.5 font-heading text-sm font-bold"></span>
+            <span class="paso-label font-heading text-sm font-semibold">Listo</span>
+          </div>
+        </div>
+        <a href="/cuenta" class="text-sm text-muted-foreground hover:text-ocean">¿Ayuda?</a>
+      </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-7xl flex-1 px-6 pb-14 pt-11 lg:px-10">
+      <PassBuilder client:load />
+    </main>
+
+    <Footer />
+  </div>
+
+  <script>
+    // Pinta el stepper según el paso que emite el island (armar | pago | listo).
+    const CHECK =
+      '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M6 12.5l4 4 8-9" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+    const ORDEN = ["armar", "pago", "listo"];
+
+    function pintarStepper(paso: string) {
+      const idx = Math.max(0, ORDEN.indexOf(paso));
+      document.querySelectorAll<HTMLElement>("#stepper [data-paso]").forEach((el) => {
+        const i = Number(el.dataset.paso) - 1;
+        const dot = el.querySelector<HTMLElement>(".paso-dot");
+        const label = el.querySelector<HTMLElement>(".paso-label");
+        if (!dot || !label) return;
+        const base = "paso-dot flex size-7 items-center justify-center rounded-full pt-0.5 font-heading text-sm font-bold";
+        if (i < idx || (paso === "listo" && i === idx)) {
+          dot.className = `${base} bg-success text-white`;
+          dot.innerHTML = CHECK;
+          label.className = "paso-label font-heading text-sm font-semibold text-success";
+        } else if (i === idx) {
+          dot.className = `${base} bg-ocean text-white`;
+          dot.textContent = String(i + 1);
+          label.className = "paso-label font-heading text-sm font-bold text-ocean";
+        } else {
+          dot.className = `${base} bg-ocean/10 text-muted-foreground`;
+          dot.textContent = String(i + 1);
+          label.className = "paso-label font-heading text-sm font-semibold text-muted-foreground";
+        }
+      });
+      document.querySelectorAll<HTMLElement>("#stepper [data-linea]").forEach((el) => {
+        const i = Number(el.dataset.linea);
+        el.className = i <= idx ? "h-0.5 w-9 bg-success" : "h-0.5 w-9 bg-ocean/20";
+      });
+    }
+
+    pintarStepper("armar");
+    window.addEventListener("sc-paso", (ev) => {
+      pintarStepper(String((ev as CustomEvent).detail));
+    });
+  </script>
+</Layout>
