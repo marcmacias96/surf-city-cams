@@ -1,0 +1,55 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Navbar from "@/components/Navbar.astro";
+import Footer from "@/components/Footer.astro";
+
+const secciones = [
+  {
+    title: "Qué es SurfCity Cams",
+    text: "Este sitio es un proyecto de demostración construido para Surf City Ecuador. Muestra cómo funcionaría un producto de cámaras de surf en vivo para Manta y Montecristi, pero no opera cámaras reales ni forma parte hoy de un servicio comercial en marcha.",
+  },
+  {
+    title: "Datos y pagos simulados",
+    text: "Los pases, la suscripción, el método de pago y el historial de compra que ves en /cuenta se generan y se guardan localmente en tu navegador: no hay pasarela de pago, no se cobra dinero real y no existe un servidor que procese ninguna transacción.",
+  },
+  {
+    title: "Fotos de spots",
+    text: "Las imágenes de cada spot son fotografías ilustrativas de bancos de imágenes libres (mayormente Unsplash), no tomas en vivo de las cámaras reales. Los créditos de autor y licencia de cada foto están en el archivo CREDITS.md del proyecto.",
+  },
+  {
+    title: "Privacidad",
+    text: "La demo no tiene backend ni base de datos: el nombre que escribes al entrar, tus spots guardados, tus alertas y tu método de pago mock se guardan únicamente en el localStorage de tu propio navegador. Nada se envía a un servidor ni se comparte con terceros. Puedes borrar todo cerrando sesión o limpiando los datos del sitio en tu navegador.",
+  },
+];
+---
+
+<Layout title="Términos">
+  <Navbar />
+
+  <main class="flex-1 bg-white">
+    <div class="mx-auto flex max-w-[720px] flex-col gap-8 px-5 py-12 sm:px-6 sm:py-16 lg:px-0">
+      <div class="flex flex-col gap-3">
+        <p class="font-heading text-[13px] font-bold uppercase tracking-[0.12em] text-muted-foreground">Aviso legal</p>
+        <h1 class="font-heading text-[32px] font-bold text-navy sm:text-4xl">Términos de esta demo</h1>
+        <p class="text-[15px] leading-relaxed text-muted-foreground">
+          Un resumen honesto de qué es este sitio y qué pasa con lo que escribes en él.
+        </p>
+      </div>
+
+      <div class="flex flex-col divide-y divide-divider">
+        {secciones.map((s) => (
+          <section class="flex flex-col gap-2 py-6 first:pt-0 last:pb-0">
+            <h2 class="font-heading text-lg font-bold text-navy">{s.title}</h2>
+            <p class="text-[15px] leading-relaxed text-ink">{s.text}</p>
+          </section>
+        ))}
+      </div>
+
+      <p class="text-sm text-muted-foreground">
+        <a href="/" class="inline-flex min-h-11 items-center font-semibold text-navy hover:text-navy-dark">← Volver al inicio</a>
+      </p>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

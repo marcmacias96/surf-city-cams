@@ -3,40 +3,15 @@ import Layout from "@/layouts/Layout.astro";
 import AppNavbar from "@/components/AppNavbar.astro";
 import Footer from "@/components/Footer.astro";
 import CuentaPanel from "@/components/cuenta/CuentaPanel.tsx";
-
-const sideItems = [
-  { id: "accesos", label: "Mis accesos" },
-  { id: "guardados", label: "Spots guardados" },
-  { id: "alertas", label: "Alertas" },
-  { id: "pagos", label: "Pagos" },
-  { id: "perfil", label: "Perfil" },
-];
 ---
 
 <Layout title="Mi cuenta">
   <AppNavbar active="mipase" />
 
-  <main class="bg-foam">
-    <div class="mx-auto flex max-w-7xl flex-col items-start gap-6 px-5 pb-14 pt-6 sm:gap-8 sm:px-6 sm:pt-11 lg:flex-row lg:px-10">
-      <!-- Sidebar -->
-      <!-- Navegación de cuenta: solo texto, sin iconografía genérica -->
-      <aside class="flex w-full shrink-0 flex-row gap-1.5 overflow-x-auto rounded-2xl border border-divider bg-white p-2.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-2 sm:p-3.5 lg:w-60 lg:flex-col lg:gap-1 lg:overflow-visible" aria-label="Secciones de la cuenta">
-        {sideItems.map((item) => (
-          <div
-            class:list={[
-              "flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-full px-3.5 py-2.5 font-heading text-[15px] lg:rounded-xl lg:py-3",
-              item.id === "accesos"
-                ? "bg-navy/8 font-bold text-navy"
-                : "font-semibold text-muted-foreground",
-            ]}
-            aria-current={item.id === "accesos" ? "page" : undefined}
-          >
-            {item.label}
-          </div>
-        ))}
-      </aside>
-
-      <!-- Main column: lee la sesión local (pases y suscripción comprados) -->
+  <main class="flex flex-1 flex-col bg-foam">
+    <div class="mx-auto flex w-full max-w-7xl flex-1 flex-col items-start gap-6 px-5 pb-14 pt-6 sm:gap-8 sm:px-6 sm:pt-11 lg:flex-row lg:items-stretch lg:px-10">
+      <!-- CuentaPanel controla todo el layout de la columna: aside (tabs
+           sincronizados con ?tab=) + contenido, según la sección activa. -->
       <CuentaPanel client:load />
     </div>
   </main>

@@ -63,7 +63,7 @@ const forecastText: Record<string, string> = {
 <Layout title={spot.name}>
   <AppNavbar active="camaras" />
 
-  <main class="bg-white" data-spot={spot.slug}>
+  <main class="flex-1 bg-white" data-spot={spot.slug}>
     <!-- Breadcrumb + título -->
     <div class="mx-auto flex max-w-7xl flex-col gap-5 px-5 pb-5 pt-3 sm:px-6 sm:pt-7 lg:flex-row lg:items-end lg:justify-between lg:px-10">
       <div class="flex flex-col gap-2 sm:gap-2.5">
@@ -92,13 +92,19 @@ const forecastText: Record<string, string> = {
         <p class="text-[15px] text-muted-foreground">{spot.description}</p>
       </div>
       <div class="flex flex-shrink-0 gap-2.5">
-        <button class="btn-secondary btn-sm flex-1 sm:flex-none" type="button">
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${spot.lat},${spot.lon}`}
+          target="_blank"
+          rel="noopener"
+          class="btn-secondary btn-sm flex-1 sm:flex-none"
+        >
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z" stroke="currentColor" stroke-width="2"></path><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"></circle></svg>
           Cómo llegar
-        </button>
-        <button class="btn-secondary btn-sm flex-1 sm:flex-none" type="button">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11z" stroke="currentColor" stroke-width="2"></path></svg>
-          Guardar spot
+        </a>
+        <button data-save-spot data-slug={spot.slug} aria-pressed="false" class="btn-secondary btn-sm flex-1 sm:flex-none" type="button">
+          <svg data-save-icon-outline width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11z" stroke="currentColor" stroke-width="2"></path></svg>
+          <svg data-save-icon-filled hidden width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11z" fill="currentColor"></path></svg>
+          <span data-save-label>Guardar spot</span>
         </button>
       </div>
     </div>
@@ -328,7 +334,7 @@ const forecastText: Record<string, string> = {
   </main>
 
   <script>
-    import { unlockInfo, remainingMs, fmtRemaining } from "@/lib/session";
+    import { unlockInfo, remainingMs, fmtRemaining, getUser, toggleSavedSpot, isSpotSaved } from "@/lib/session";
 
     // Si un pase activo (o la suscripción) cubre este spot, se retira el
     // paywall renderizado en estático y se muestra la cámara como pagada.
@@ -355,6 +361,32 @@ const forecastText: Record<string, string> = {
               : `PAGADO · TU PASE · QUEDAN ${fmtRemaining(remainingMs(info.pass)).toUpperCase()}`;
         }
       }
+    }
+
+    // "Guardar spot": sin sesión, manda a /login con el retorno a esta ficha;
+    // con sesión, alterna el favorito en localStorage y refleja el estado.
+    const saveBtn = document.querySelector<HTMLButtonElement>("[data-save-spot]");
+    if (saveBtn && slug) {
+      const label = saveBtn.querySelector<HTMLElement>("[data-save-label]");
+      const iconOutline = saveBtn.querySelector<HTMLElement>("[data-save-icon-outline]");
+      const iconFilled = saveBtn.querySelector<HTMLElement>("[data-save-icon-filled]");
+
+      const render = (saved: boolean) => {
+        if (label) label.textContent = saved ? "Guardado" : "Guardar spot";
+        iconOutline?.classList.toggle("hidden", saved);
+        iconFilled?.classList.toggle("hidden", !saved);
+        saveBtn.setAttribute("aria-pressed", String(saved));
+      };
+
+      render(getUser() ? isSpotSaved(slug) : false);
+
+      saveBtn.addEventListener("click", () => {
+        if (!getUser()) {
+          window.location.href = "/login?next=" + encodeURIComponent(window.location.pathname);
+          return;
+        }
+        render(toggleSavedSpot(slug));
+      });
     }
   </script>
 

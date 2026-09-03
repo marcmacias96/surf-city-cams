@@ -23,11 +23,22 @@ export interface StoredUser {
   email: string;
 }
 
+export interface StoredPaymentMethod {
+  type: "tarjeta" | "transferencia" | "movil";
+  label: string;
+}
+
 export interface Session {
   passes: StoredPass[];
   subscription: StoredSubscription | null;
   /** Usuario mock de la demo; null = sin iniciar sesión */
   user: StoredUser | null;
+  /** Slugs de spots guardados desde la ficha de cada cámara */
+  savedSpots: string[];
+  /** Alerta de "avisarme cuando mejoren las condiciones", una por spot (demo: no envía nada real) */
+  alertPrefs: Record<string, boolean>;
+  /** Método de pago mock guardado en /cuenta; null = sin método guardado */
+  paymentMethod: StoredPaymentMethod | null;
 }
 
 const KEY = "surfcity:session:v1";
@@ -44,13 +55,22 @@ export function getSession(): Session {
     const raw = localStorage.getItem(KEY);
     if (raw) {
       const s = JSON.parse(raw);
-      // Retrocompatible: sesiones guardadas antes del login mock no traen `user`.
-      if (Array.isArray(s.passes)) return { passes: s.passes, subscription: s.subscription ?? null, user: s.user ?? null };
+      // Retrocompatible: sesiones guardadas antes de estos campos no los traen.
+      if (Array.isArray(s.passes)) {
+        return {
+          passes: s.passes,
+          subscription: s.subscription ?? null,
+          user: s.user ?? null,
+          savedSpots: Array.isArray(s.savedSpots) ? s.savedSpots : [],
+          alertPrefs: s.alertPrefs && typeof s.alertPrefs === "object" ? s.alertPrefs : {},
+          paymentMethod: s.paymentMethod ?? null,
+        };
+      }
     }
   } catch {
     /* almacenamiento no disponible: sesión vacía */
   }
-  return { passes: [], subscription: null, user: null };
+  return { passes: [], subscription: null, user: null, savedSpots: [], alertPrefs: {}, paymentMethod: null };
 }
 
 function write(s: Session) {
@@ -109,6 +129,44 @@ export function login(name: string, email: string): StoredUser {
 /** Usuario de la sesión actual, o null si no ha iniciado sesión. */
 export function getUser(): StoredUser | null {
   return getSession().user;
+}
+
+/** ¿Este spot está guardado por el usuario? */
+export function isSpotSaved(slug: string, s = getSession()): boolean {
+  return s.savedSpots.includes(slug);
+}
+
+/** Guarda o quita un spot de favoritos. Devuelve el nuevo estado (true = guardado). */
+export function toggleSavedSpot(slug: string): boolean {
+  const s = getSession();
+  const saved = s.savedSpots.includes(slug);
+  s.savedSpots = saved ? s.savedSpots.filter((x) => x !== slug) : [...s.savedSpots, slug];
+  write(s);
+  return !saved;
+}
+
+/** Activa o desactiva la alerta de condiciones de un spot (demo: no envía notificaciones). */
+export function setAlertPref(slug: string, on: boolean) {
+  const s = getSession();
+  s.alertPrefs = { ...s.alertPrefs, [slug]: on };
+  write(s);
+}
+
+/** Guarda (o quita, pasando null) el método de pago mock de la cuenta. */
+export function setPaymentMethod(method: StoredPaymentMethod | null) {
+  const s = getSession();
+  s.paymentMethod = method;
+  write(s);
+}
+
+/** Genera un método de pago mock plausible para el tipo elegido en el formulario de /cuenta. */
+export function mockPaymentMethod(type: StoredPaymentMethod["type"]): StoredPaymentMethod {
+  if (type === "tarjeta") {
+    const digits = String(Math.floor(1000 + Math.random() * 9000));
+    return { type, label: `Visa •••• ${digits}` };
+  }
+  if (type === "transferencia") return { type, label: "Transferencia bancaria" };
+  return { type, label: "Pago móvil" };
 }
 
 /** Logout de la demo: borra usuario, pases y suscripción para empezar de cero. */

@@ -17,7 +17,12 @@ const { title, description = "Cámaras en vivo y forecast de los spots de surf d
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title} · SurfCity Cams</title>
   </head>
-  <body class="min-h-screen bg-background font-sans text-foreground antialiased">
-    <slot />
+  <body class="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased">
+    <!-- Envoltorio "sticky footer": crece para que el <main> de cada página
+         (con flex-1) empuje el Footer al fondo del viewport cuando el
+         contenido es corto, sin tener que tocar los slots de cada página. -->
+    <div class="flex flex-1 flex-col">
+      <slot />
+    </div>
   </body>
 </html>

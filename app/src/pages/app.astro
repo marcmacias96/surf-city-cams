@@ -8,7 +8,7 @@ import { spots } from "@/data/spots";
 <Layout title="Tus cámaras">
   <AppNavbar active="camaras" />
 
-  <main class="bg-foam">
+  <main class="flex-1 bg-foam">
     <!-- Encabezado del dashboard -->
     <section class="mx-auto flex max-w-7xl flex-col gap-1.5 px-5 pt-7 sm:px-6 sm:pt-10 lg:px-10">
       <p data-app-saludo class="font-heading text-[15px] font-semibold text-terracotta">Buenas olas</p>
@@ -43,7 +43,12 @@ import { spots } from "@/data/spots";
             class="block h-full min-h-[400px] w-full border-0 md:min-h-[min(80vh,780px)]"></iframe>
         </div>
 
-        <div id="spots-list" class="order-1 flex flex-col gap-3 lg:order-2">
+        <div id="spots-list" class="order-1 flex flex-1 flex-col gap-3 lg:order-2">
+          <!-- Estado vacío: solo aparece si un filtro deja la lista sin resultados. -->
+          <div id="spots-vacio" hidden class="flex flex-1 flex-col items-center justify-center gap-2 rounded-2xl border border-divider bg-white px-6 py-14 text-center">
+            <p class="font-heading text-base font-bold text-navy">Ningún spot con ese nivel</p>
+            <p class="text-sm text-muted-foreground">Prueba con otro filtro.</p>
+          </div>
           {spots.map((spot) => (
             <div
               data-row
@@ -202,14 +207,20 @@ import { spots } from "@/data/spots";
         if (emit) syncMap();
       }
 
+      const vacioEl = document.getElementById("spots-vacio");
+
       function applyFilter(next: string | null) {
         nivel = next;
         filterBtns.forEach((b) => {
           b.setAttribute("aria-pressed", String((b.dataset.filter || null) === nivel));
         });
+        let visibles = 0;
         document.querySelectorAll<HTMLElement>("#spots-list [data-row]").forEach((row) => {
-          row.classList.toggle("hidden", nivel !== null && row.dataset.nivel !== nivel);
+          const oculta = nivel !== null && row.dataset.nivel !== nivel;
+          row.classList.toggle("hidden", oculta);
+          if (!oculta) visibles++;
         });
+        if (vacioEl) vacioEl.hidden = visibles > 0;
         if (selected && nivel && nivelOf(selected) !== nivel) selected = null;
         paint();
         syncMap();
