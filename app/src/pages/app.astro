@@ -8,39 +8,39 @@ import { spots } from "@/data/spots";
 <Layout title="Tus cámaras">
   <AppNavbar active="camaras" />
 
-  <main class="bg-mist">
+  <main class="bg-foam">
     <!-- Encabezado del dashboard -->
-    <section class="mx-auto flex max-w-7xl flex-col gap-1.5 px-6 pt-10 lg:px-10">
+    <section class="mx-auto flex max-w-7xl flex-col gap-1.5 px-5 pt-7 sm:px-6 sm:pt-10 lg:px-10">
       <p data-app-saludo class="font-heading text-[15px] font-semibold text-terracotta">Buenas olas</p>
-      <h1 class="font-heading text-3xl font-bold tracking-wide text-ocean-deep md:text-[36px]">Tus cámaras</h1>
+      <h1 class="font-heading text-3xl font-bold text-navy md:text-[36px]">Tus cámaras</h1>
       <p class="text-base text-muted-foreground">Los 9 spots de Manta y Montecristi, en vivo y con forecast.</p>
     </section>
 
     <!-- Spots grid -->
-    <section id="spots" class="mx-auto flex max-w-7xl scroll-mt-24 flex-col gap-7 px-6 pb-6 pt-8 lg:px-10">
+    <section id="spots" class="mx-auto flex max-w-7xl scroll-mt-24 flex-col gap-6 px-5 pb-6 pt-7 sm:gap-7 sm:px-6 sm:pt-8 lg:px-10">
       <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
         <div class="flex flex-col gap-2">
-          <h2 class="font-heading text-2xl font-bold tracking-wide text-ocean-deep md:text-[28px]">Cámaras por spot</h2>
+          <h2 class="font-heading text-2xl font-bold text-navy md:text-[28px]">Cámaras por spot</h2>
           <p class="text-base text-muted-foreground">Manta y Montecristi, Manabí · actualizado hace 2 min</p>
         </div>
         <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar spots por nivel">
-          <button type="button" data-filter="" aria-pressed="true" class="rounded-full px-[18px] py-2.5 font-heading text-sm font-semibold transition-colors aria-pressed:bg-ocean aria-pressed:text-white bg-ocean/[0.08] text-ocean hover:bg-ocean/15 aria-pressed:hover:bg-ocean">Todos</button>
-          <button type="button" data-filter="principiante" aria-pressed="false" class="rounded-full px-[18px] py-2.5 font-heading text-sm font-semibold transition-colors aria-pressed:bg-ocean aria-pressed:text-white bg-ocean/[0.08] text-ocean hover:bg-ocean/15 aria-pressed:hover:bg-ocean">Principiante</button>
-          <button type="button" data-filter="intermedio" aria-pressed="false" class="rounded-full px-[18px] py-2.5 font-heading text-sm font-semibold transition-colors aria-pressed:bg-ocean aria-pressed:text-white bg-ocean/[0.08] text-ocean hover:bg-ocean/15 aria-pressed:hover:bg-ocean">Intermedio</button>
-          <button type="button" data-filter="avanzado" aria-pressed="false" class="rounded-full px-[18px] py-2.5 font-heading text-sm font-semibold transition-colors aria-pressed:bg-ocean aria-pressed:text-white bg-ocean/[0.08] text-ocean hover:bg-ocean/15 aria-pressed:hover:bg-ocean">Avanzado</button>
+          <button type="button" data-filter="" aria-pressed="true" class="min-h-11 rounded-full px-[18px] py-2.5 font-heading text-sm font-semibold transition-colors aria-pressed:bg-navy aria-pressed:text-white bg-navy/[0.08] text-navy hover:bg-navy/15 aria-pressed:hover:bg-navy">Todos</button>
+          <button type="button" data-filter="principiante" aria-pressed="false" class="min-h-11 rounded-full px-[18px] py-2.5 font-heading text-sm font-semibold transition-colors aria-pressed:bg-navy aria-pressed:text-white bg-navy/[0.08] text-navy hover:bg-navy/15 aria-pressed:hover:bg-navy">Principiante</button>
+          <button type="button" data-filter="intermedio" aria-pressed="false" class="min-h-11 rounded-full px-[18px] py-2.5 font-heading text-sm font-semibold transition-colors aria-pressed:bg-navy aria-pressed:text-white bg-navy/[0.08] text-navy hover:bg-navy/15 aria-pressed:hover:bg-navy">Intermedio</button>
+          <button type="button" data-filter="avanzado" aria-pressed="false" class="min-h-11 rounded-full px-[18px] py-2.5 font-heading text-sm font-semibold transition-colors aria-pressed:bg-navy aria-pressed:text-white bg-navy/[0.08] text-navy hover:bg-navy/15 aria-pressed:hover:bg-navy">Avanzado</button>
         </div>
       </div>
 
       <div class="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-[1.08fr_1fr] lg:gap-8">
         <!-- En desktop el mapa va primero; en móvil la lista abre la sección
              y el mapa (más bajo) queda después, sin atrapar el scroll táctil. -->
-        <div class="order-2 overflow-hidden rounded-3xl border border-ocean/15 shadow-[0_16px_44px_rgba(0,58,87,0.14)] lg:order-1">
+        <div class="order-2 overflow-hidden rounded-2xl border border-divider lg:order-1">
           <iframe
             id="spots-map"
             src="/mapa.html"
             loading="lazy"
             title="Mapa de spots de surf de Manta y Manabí"
-            class="block h-full min-h-[300px] w-full border-0 md:min-h-[min(80vh,780px)]"></iframe>
+            class="block h-full min-h-[400px] w-full border-0 md:min-h-[min(80vh,780px)]"></iframe>
         </div>
 
         <div id="spots-list" class="order-1 flex flex-col gap-3 lg:order-2">
@@ -48,7 +48,7 @@ import { spots } from "@/data/spots";
             <div
               data-row
               data-nivel={spot.nivel}
-              class="group flex items-center gap-3 rounded-2xl border border-ocean/10 bg-white p-3 pr-4 shadow-[0_4px_14px_rgba(0,58,87,0.05)] transition-all hover:border-ocean/30 data-[on=true]:ring-2 data-[on=true]:ring-inset data-[on=true]:ring-ocean data-[on=true]:shadow-[0_8px_24px_rgba(0,82,122,0.16)] sm:gap-4"
+              class="group flex items-center gap-3 rounded-2xl border border-divider bg-white p-3 pr-4 transition-colors hover:border-navy/40 data-[on=true]:ring-2 data-[on=true]:ring-inset data-[on=true]:ring-navy sm:gap-4"
             >
               <button
                 type="button"
@@ -61,7 +61,7 @@ import { spots } from "@/data/spots";
                   <img src={spot.image} alt="" class="absolute inset-0 h-full w-full object-cover" loading="lazy" />
                   {spot.access === "bloqueado" ? (
                     <>
-                      <div data-lock-ui class="absolute inset-0 flex items-center justify-center bg-ocean-deep/30">
+                      <div data-lock-ui class="absolute inset-0 flex items-center justify-center bg-navy-dark/30">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#ffffff" stroke-width="2"></rect><path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="#ffffff" stroke-width="2"></path></svg>
                       </div>
                       <span data-live-ui class="live-dot absolute left-1.5 top-1.5 hidden size-1.5 rounded-full bg-destructive"></span>
@@ -72,7 +72,7 @@ import { spots } from "@/data/spots";
                 </div>
                 <div class="flex min-w-0 flex-1 flex-col gap-1">
                   <div class="flex items-center gap-2">
-                    <span class="truncate font-heading text-[17px] font-bold text-ocean-deep">{spot.name}</span>
+                    <span class="truncate font-heading text-[17px] font-bold text-navy">{spot.name}</span>
                     {spot.access === "gratis" && (
                       <span title="Cámara gratis" class="flex size-[22px] shrink-0 items-center justify-center rounded-full bg-success/95">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M6 12.5l4 4 8-9" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -80,7 +80,7 @@ import { spots } from "@/data/spots";
                       </span>
                     )}
                     {spot.access === "premium" && (
-                      <span data-access-badge title="Spot premium" class="flex size-[22px] shrink-0 items-center justify-center rounded-full bg-ocean-deep/85">
+                      <span data-access-badge title="Spot premium" class="flex size-[22px] shrink-0 items-center justify-center rounded-full bg-navy-dark/85">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.5 6.8L12 16.8 5.9 20.3l1.5-6.8L2.2 8.9l6.9-.6z" fill="#EFDEB1"></path></svg>
                         <span class="sr-only">Premium</span>
                       </span>
@@ -100,17 +100,17 @@ import { spots } from "@/data/spots";
                   </div>
                   <span class="text-xs text-muted-foreground">{spot.breakType} · {spot.localidad}</span>
                   <div class="flex flex-wrap items-center gap-1.5 sm:hidden">
-                    <span class="rounded-full bg-mist px-2 py-0.5 text-[11px] font-semibold text-ocean-deep">{spot.waveM.toFixed(1)} m</span>
-                    {spot.offshore && <span class="rounded-full bg-mist px-2 py-0.5 text-[11px] font-semibold text-success-ink">Offshore</span>}
+                    <span class="rounded-full bg-foam px-2 py-0.5 text-[11px] font-semibold text-ink">{spot.waveM.toFixed(1)} m</span>
+                    {spot.offshore && <span class="rounded-full bg-foam px-2 py-0.5 text-[11px] font-semibold text-success-ink">Offshore</span>}
                   </div>
                 </div>
                 <div class="hidden items-center gap-2 sm:flex">
-                  <span class="flex items-center gap-1.5 rounded-full bg-mist px-2.5 py-1">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M2 17c3-5 6-5 9-2.5S18 17 22 13" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path></svg>
-                    <span class="text-xs font-semibold text-ocean-deep">{spot.waveM.toFixed(1)} m</span>
+                  <span class="flex items-center gap-1.5 rounded-full bg-foam px-2.5 py-1">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M2 17c3-5 6-5 9-2.5S18 17 22 13" stroke="#005279" stroke-width="2" stroke-linecap="round"></path></svg>
+                    <span class="text-xs font-semibold text-ink">{spot.waveM.toFixed(1)} m</span>
                   </span>
                   {spot.offshore && (
-                    <span class="flex items-center gap-1.5 rounded-full bg-mist px-2.5 py-1">
+                    <span class="flex items-center gap-1.5 rounded-full bg-foam px-2.5 py-1">
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M3 8h9a3 3 0 1 0-3-3M3 12h13a3 3 0 1 1-3 3" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round"></path></svg>
                       <span class="text-xs font-semibold text-success-ink">Offshore</span>
                     </span>
@@ -120,7 +120,7 @@ import { spots } from "@/data/spots";
               <a
                 href={`/spots/${spot.slug}`}
                 aria-label={`Ver cámara de ${spot.name}`}
-                class="flex size-11 shrink-0 items-center justify-center rounded-full bg-ocean/[0.08] text-ocean transition-colors hover:bg-terracotta hover:text-white"
+                class="flex size-11 shrink-0 items-center justify-center rounded-full bg-navy/[0.08] text-navy transition-colors hover:bg-terracotta hover:text-white"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
               </a>

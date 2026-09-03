@@ -1,28 +1,70 @@
 ---
+/**
+ * Logo oficial Surf City (docs/BRAND.md + public/brand/README.md).
+ * Usa SIEMPRE los SVG del kit: nunca se recrea la ola ni el wordmark.
+ *
+ * - variant "dark": logo navy para fondos claros → /brand/logo-horizontal.svg
+ * - variant "light": logo blanco para fondos navy → /brand/logo-horizontal-white.svg
+ * - layout "stacked": versión apilada (login, materiales) → /brand/logo-stacked(-white).svg
+ * - size: alto del logo en px. El horizontal mide ~4.68:1 y el apilado ~1.48:1.
+ *
+ * Espacio mínimo alrededor del logo = su propia altura: el enlace reserva
+ * size/2 de padding vertical, que sumado al padding del contenedor (≥ size/2)
+ * garantiza la reserva. Horizontalmente lo cubren el padding del layout y el gap.
+ *
+ * Sufijo "CAMS": el producto se llama SurfCity Cams y el copy lo nombra así;
+ * sin el sufijo la cabecera se leería como la web principal de Surf City.
+ * Se mantiene como rótulo pequeño en Josefin Sans, separado por un divisor fino
+ * para no tocar el logo y sin competir con él. En pantallas muy estrechas se
+ * oculta para preservar el área de respeto.
+ */
 interface Props {
-  /** "light" para fondos oscuros */
+  /** "light" para fondos oscuros (navy / navy-dark) */
   variant?: "dark" | "light";
+  /** Alto del logo en px */
   size?: number;
   /** Destino del logo: "/" en marketing, "/app" dentro de la plataforma */
   href?: string;
+  /** Disposición del logo oficial */
+  layout?: "horizontal" | "stacked";
+  /** Mostrar el sufijo de producto "CAMS" */
+  product?: boolean;
 }
-const { variant = "dark", size = 38, href = "/" } = Astro.props;
+const {
+  variant = "dark",
+  size = 28,
+  href = "/",
+  layout = "horizontal",
+  product = layout === "horizontal",
+} = Astro.props;
+
+const RATIO = { horizontal: 220.88 / 47.23, stacked: 206.22 / 139.44 } as const;
+const src = `/brand/logo-${layout}${variant === "light" ? "-white" : ""}.svg`;
+const width = Math.round(size * RATIO[layout]);
+const light = variant === "light";
 ---
 
-<a href={href} class="flex items-center gap-2.5">
-  <svg width={size} height={size} viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="19" cy="19" r="19" fill={variant === "dark" ? "#00527A" : "rgba(255,255,255,0.14)"}></circle>
-    <path d="M7 23c4-6 8.5-6.5 12.5-3.5S28 23 32 18.5" stroke="#ffffff" stroke-width="2.6" fill="none" stroke-linecap="round"></path>
-    <path d="M9 28c3-4 6.5-4.2 9.5-2.2s7.5 2 10.5-1.3" stroke="#7FD8F0" stroke-width="2" fill="none" stroke-linecap="round"></path>
-  </svg>
-  <span
-    class:list={[
-      "font-heading font-bold tracking-wide",
-      variant === "dark" ? "text-ocean-deep" : "text-white",
-    ]}
-    style={`font-size: ${Math.round(size * 0.66)}px`}
-  >
-    Surf<span class:list={[variant === "dark" ? "text-ocean" : "text-seafoam"]}>City</span>
-    <span class:list={["hidden font-normal tracking-widest sm:inline", variant === "dark" ? "text-muted-foreground" : "text-white/70"]} style={`font-size: ${Math.round(size * 0.4)}px`}>CAMS</span>
-  </span>
+<a
+  href={href}
+  aria-label="Surf City Cams — inicio"
+  class="inline-flex shrink-0 items-center"
+  style={`padding: ${Math.round(size / 2)}px 0; gap: ${Math.round(size * 0.45)}px`}
+>
+  <img src={src} width={width} height={size} alt="Surf City" decoding="async" class="block" style={`height: ${size}px; width: ${width}px`} />
+  {product && (
+    <span
+      class:list={[
+        "hidden items-center font-heading font-bold tracking-[0.12em] sm:inline-flex",
+        light ? "text-white/75" : "text-navy/70",
+      ]}
+      style={`font-size: ${Math.max(11, Math.round(size * 0.42))}px; padding-top: 0.15em`}
+    >
+      <span
+        aria-hidden="true"
+        class:list={["mr-[0.9em] inline-block w-px", light ? "bg-white/40" : "bg-navy/30"]}
+        style={`height: ${Math.round(size * 0.7)}px; margin-top: -0.15em`}
+      ></span>
+      CAMS
+    </span>
+  )}
 </a>

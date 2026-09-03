@@ -16,16 +16,18 @@ const items = [
 ];
 ---
 
-<header class="sticky top-0 z-50 border-b border-ocean/10 bg-white/90 backdrop-blur">
-  <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3.5 sm:px-6 lg:px-10">
-    <Logo />
-    <nav class="hidden items-center gap-8 font-heading text-[15px] font-semibold text-ocean-deep md:flex" aria-label="Navegación principal">
+<!-- Header de marketing (docs/BRAND.md → Header): fondo Navy Dark, logo blanco,
+     enlaces blancos con opacidad y CTA primario terracotta. -->
+<header class="sticky top-0 z-50 bg-navy-dark">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-2.5 sm:px-6 lg:px-10">
+    <Logo variant="light" size={26} />
+    <nav class="hidden items-center gap-8 font-heading text-[15px] font-semibold tracking-[0.06em] text-white/80 md:flex" aria-label="Navegación principal">
       {items.map((item) => (
         <a
           href={item.href}
           class:list={[
-            "pb-0.5 transition-colors hover:text-ocean",
-            active === item.id && "border-b-2 border-terracotta text-ocean",
+            "pb-0.5 transition-colors hover:text-white",
+            active === item.id && "border-b-2 border-terracotta text-white",
           ]}
         >
           {item.label}
@@ -35,15 +37,15 @@ const items = [
     <div class="flex items-center gap-2.5 sm:gap-3">
       <!-- Con sesión iniciada: acceso directo a la plataforma -->
       <div data-nav-user class="hidden items-center gap-2.5 sm:gap-3">
-        <a href="/app" class="flex items-center gap-2 rounded-full bg-terracotta-dark px-5 py-2 font-heading text-[15px] font-bold text-white transition-colors hover:bg-terracotta">
+        <a href="/app" class="btn-primary btn-sm">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M2 17c3-5 6-5 9-2.5S18 17 22 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M13 9c2.5-4 6-4.5 9-2" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
           Mis cámaras
         </a>
       </div>
       <!-- Estado anónimo (por defecto) -->
       <div data-nav-anon class="flex items-center gap-2.5 sm:gap-3">
-        <a href="/login" class="hidden rounded-full bg-secondary px-5 py-2 font-heading text-[15px] font-bold text-ocean transition-colors hover:bg-ocean/15 sm:block">Iniciar sesión</a>
-        <a href="/planes" class="rounded-full bg-terracotta-dark px-5 py-2 font-heading text-[15px] font-bold text-white transition-colors hover:bg-terracotta">Ver planes</a>
+        <a href="/login" class="btn-secondary-light btn-sm hidden sm:inline-flex">Iniciar sesión</a>
+        <a href="/planes" class="btn-primary btn-sm">Ver planes</a>
       </div>
       <button
         id="nav-toggle"
@@ -51,7 +53,7 @@ const items = [
         aria-expanded="false"
         aria-controls="nav-movil"
         aria-label="Abrir menú"
-        class="flex size-11 items-center justify-center rounded-full bg-ocean/[0.08] text-ocean-deep transition-colors hover:bg-ocean/15 md:hidden"
+        class="flex size-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 md:hidden"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
       </button>
@@ -59,17 +61,17 @@ const items = [
   </div>
 
   <!-- Menú móvil -->
-  <nav id="nav-movil" class="hidden border-t border-ocean/10 bg-white px-4 pb-4 pt-3 md:hidden" aria-label="Navegación principal (móvil)">
+  <nav id="nav-movil" class="hidden border-t border-white/10 bg-navy-dark px-5 pb-5 pt-3 md:hidden" aria-label="Navegación principal (móvil)">
     <ul class="flex flex-col gap-2">
       {items.map((item) => (
         <li>
           <a
             href={item.href}
             class:list={[
-              "flex w-full items-center rounded-full px-5 py-3 font-heading text-[15px] font-bold",
+              "flex w-full items-center rounded-full px-5 py-3 font-heading text-[15px] font-bold tracking-[0.06em]",
               active === item.id
-                ? "border border-terracotta bg-mist text-ocean"
-                : "bg-mist text-ocean-deep",
+                ? "border border-terracotta bg-white/10 text-white"
+                : "bg-white/[0.07] text-white/85",
             ]}
           >
             {item.label}
@@ -77,13 +79,13 @@ const items = [
         </li>
       ))}
       <li data-nav-anon>
-        <a href="/login" class="flex w-full items-center rounded-full bg-secondary px-5 py-3 font-heading text-[15px] font-bold text-ocean sm:hidden">Iniciar sesión</a>
+        <a href="/login" class="btn-secondary-light btn-block sm:hidden">Iniciar sesión</a>
       </li>
       <li data-nav-user class="hidden">
-        <a href="/app" class="flex w-full items-center rounded-full bg-terracotta-dark px-5 py-3 font-heading text-[15px] font-bold text-white">Mis cámaras</a>
+        <a href="/app" class="btn-primary btn-block">Mis cámaras</a>
       </li>
       <li data-nav-user class="hidden">
-        <button type="button" data-logout class="flex w-full items-center rounded-full border border-ocean/20 px-5 py-3 font-heading text-[15px] font-bold text-ocean">Cerrar sesión</button>
+        <button type="button" data-logout class="btn-secondary-light btn-block">Cerrar sesión</button>
       </li>
     </ul>
   </nav>

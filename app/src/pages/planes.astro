@@ -4,37 +4,35 @@ import Navbar from "@/components/Navbar.astro";
 import Footer from "@/components/Footer.astro";
 import PlanPricing from "@/components/planes/PlanPricing";
 
+/** Cómo funciona el pase: lista editorial numerada, sin iconos */
 const steps = [
   {
-    title: "Compra tu pase",
-    text: "Tarjeta, transferencia o pago móvil",
-    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7" width="18" height="12" rx="2.5" stroke="#00527A" stroke-width="2"></rect><path d="M12 11v4M10 13h4" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path></svg>`,
+    title: "Compra el pase",
+    text: "Eliges los spots y la duración: 24 horas, 48 horas, 7 o 15 días. Pagas con tarjeta, transferencia o pago móvil y recibes un código.",
   },
   {
-    title: "Se activa al usarlo",
-    text: "El contador corre desde tu primera vista",
-    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="#00527A" stroke-width="2"></circle><path d="M12 7v5l3.5 2" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path></svg>`,
+    title: "Se activa con la primera vista",
+    text: "El tiempo empieza a contar cuando abres la primera cámara, no cuando pagas. Puedes comprarlo hoy y usarlo el sábado.",
   },
   {
-    title: "Mira tus spots",
-    text: "Cámara + forecast mientras dure el pase",
-    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 18c3-5 6-5 9-2.5S18 18 22 14" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path><path d="M13 9c2.5-4 6-4.5 9-2" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path></svg>`,
+    title: "Cámara y forecast mientras dure",
+    text: "Vídeo en vivo y forecast a 4 días de cada spot incluido. Cuando expira, compras otro pase o te pasas a la suscripción Local.",
   },
 ];
 ---
 
 <Layout title="Planes">
-  <div class="min-h-screen bg-mist">
+  <div class="min-h-screen bg-foam">
     <Navbar active="planes" user="anonimo" />
 
-    <main class="mx-auto max-w-7xl px-6 lg:px-10">
+    <main class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
       <!-- Header -->
-      <section class="flex flex-col items-center gap-3.5 pt-14 pb-9 text-center">
-        <h1 class="font-heading text-4xl font-bold tracking-[0.8px] text-ocean-deep md:text-[42px]">
+      <section class="flex flex-col items-center gap-3.5 pb-8 pt-10 text-center sm:pb-9 sm:pt-14">
+        <h1 class="font-heading text-[34px] font-bold text-navy sm:text-4xl md:text-[42px]">
           Elige cómo quieres ver el mar
         </h1>
-        <p class="max-w-[620px] text-[17px] leading-relaxed text-muted-foreground">
-          Acceso total con suscripción, o pases puntuales por spot y por tiempo. Sin permanencia: cancela cuando quieras.
+        <p class="max-w-[620px] text-base leading-relaxed text-muted-foreground sm:text-[17px]">
+          Suscripción mensual con las nueve cámaras, o pases por spot y por tiempo. Sin permanencia.
         </p>
       </section>
 
@@ -44,43 +42,28 @@ const steps = [
       </section>
 
       <!-- Cómo funciona el pase -->
-      <section class="mt-6 mb-14">
-        <div class="flex flex-col items-center gap-10 rounded-2xl border border-ocean/10 bg-white p-9 lg:flex-row lg:gap-11 lg:px-10">
+      <section id="como-funciona" class="mt-6 mb-14">
+        <div class="flex flex-col gap-8 rounded-2xl border border-divider bg-white p-6 sm:gap-10 sm:p-9 lg:flex-row lg:gap-16 lg:px-10">
           <div class="flex w-full flex-col gap-3 lg:w-[380px] lg:shrink-0">
-            <div class="inline-flex items-center gap-2 self-start rounded-2xl bg-sand px-3.5 pt-1.5 pb-1">
-              <span class="font-heading text-xs font-bold tracking-[1px] text-sand-dark">¿CÓMO FUNCIONA EL PASE?</span>
-            </div>
-            <h2 class="font-heading text-[26px] leading-tight font-bold text-ocean-deep">
-              Un pase, tus spots, tu tiempo
+            <p class="font-heading text-[13px] font-bold uppercase tracking-[0.12em] text-muted-foreground sm:text-xs">Cómo funciona el pase</p>
+            <h2 class="font-heading text-2xl leading-tight font-bold text-navy sm:text-[26px]">
+              El pase se activa cuando abres la cámara
             </h2>
             <p class="text-[15px] leading-relaxed text-muted-foreground">
-              Al comprar recibes un pase con un código único que se activa en tu primer uso. Elige los spots y la duración; cuando el tiempo termina, el pase expira y puedes comprar otro o pasarte a la suscripción.
+              Al comprar recibes un código único. Elige los spots y la duración; el contador arranca con tu primera vista y, al terminar, el pase expira sin renovarse.
             </p>
           </div>
-          <div class="flex w-full flex-1 flex-col items-center gap-6 md:flex-row md:gap-0">
-            {
-              steps.map((step, i) => (
-                <>
-                  {i > 0 && (
-                    <svg
-                      width="40"
-                      height="14"
-                      viewBox="0 0 40 14"
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="shrink-0 rotate-90 md:rotate-0"
-                    >
-                      <path d="M2 7h32M30 2l6 5-6 5" stroke="#DC8158" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                  )}
-                  <div class="flex flex-1 flex-col items-center gap-2.5 text-center">
-                    <div class="flex size-[54px] items-center justify-center rounded-full bg-ocean/8" set:html={step.icon} />
-                    <div class="font-heading text-[15px] font-bold text-ocean-deep">{step.title}</div>
-                    <div class="max-w-[170px] text-[13px] text-muted-foreground">{step.text}</div>
-                  </div>
-                </>
-              ))
-            }
-          </div>
+          <ol class="flex w-full flex-1 flex-col divide-y divide-divider">
+            {steps.map((step, i) => (
+              <li class="grid grid-cols-[2.25rem_1fr] gap-x-3 py-5 first:pt-0 last:pb-0 sm:grid-cols-[2.5rem_1fr] sm:gap-x-4">
+                <span class="font-heading text-2xl font-bold leading-none text-terracotta">{String(i + 1).padStart(2, "0")}</span>
+                <div class="flex flex-col gap-1">
+                  <h3 class="font-heading text-base font-bold text-navy">{step.title}</h3>
+                  <p class="text-[15px] leading-relaxed text-ink">{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
     </main>

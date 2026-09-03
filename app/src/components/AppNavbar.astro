@@ -23,16 +23,20 @@ const items = [
   }
 </script>
 
-<header class="sticky top-0 z-50 border-b border-white/10 bg-ocean-deep">
-  <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-10">
-    <Logo variant="light" size={30} href="/app" />
-    <nav class="hidden items-center gap-7 font-heading text-[15px] font-semibold text-white/80 md:flex" aria-label="Navegación de la plataforma">
+<!-- Barra de la PLATAFORMA (usuario con sesión). Se distingue a propósito del
+     header de marketing (Navbar.astro, Navy Dark #0A3550): aquí el fondo es
+     Navy #005279 con una línea inferior de 3px terracotta, y a la derecha van el
+     chip de estado del pase/plan y el usuario en lugar de los CTA de venta. -->
+<header class="sticky top-0 z-50 border-b-[3px] border-terracotta bg-navy">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-2 sm:px-6 lg:px-10">
+    <Logo variant="light" size={24} href="/app" />
+    <nav class="hidden items-center gap-7 font-heading text-[15px] font-semibold tracking-[0.06em] text-white/80 md:flex" aria-label="Navegación de la plataforma">
       {items.map((item) => (
         <a
           href={item.href}
           class:list={[
             "pb-0.5 transition-colors hover:text-white",
-            active === item.id && "border-b-2 border-terracotta text-white",
+            active === item.id && "border-b-2 border-sand text-white",
           ]}
         >
           {item.label}
@@ -46,13 +50,13 @@ const items = [
         <span data-session-label class="font-heading text-[13px] font-bold text-sand-dark">Pase activo</span>
       </a>
       <div class="hidden items-center gap-2.5 md:flex">
-        <span data-app-avatar aria-hidden="true" class="flex size-9 items-center justify-center rounded-full bg-seafoam font-heading text-[15px] font-bold text-ocean-deep">S</span>
+        <span data-app-avatar aria-hidden="true" class="flex size-9 items-center justify-center rounded-full bg-sand pt-0.5 font-heading text-[15px] font-bold text-navy-dark">S</span>
         <span data-app-nombre class="max-w-[120px] truncate font-heading text-sm font-semibold text-white">Surfista</span>
       </div>
       <button
         type="button"
         data-app-salir
-        class="hidden rounded-full border border-white/30 px-4 py-2 font-heading text-sm font-bold text-white transition-colors hover:border-destructive hover:bg-destructive/20 md:block"
+        class="btn-secondary-light btn-sm hidden md:inline-flex"
       >
         Salir
       </button>
@@ -70,10 +74,10 @@ const items = [
   </div>
 
   <!-- Menú móvil -->
-  <nav id="nav-movil" class="hidden border-t border-white/10 bg-ocean-deep px-4 pb-4 pt-3 md:hidden" aria-label="Navegación de la plataforma (móvil)">
+  <nav id="nav-movil" class="hidden border-t border-white/10 bg-navy px-5 pb-5 pt-3 md:hidden" aria-label="Navegación de la plataforma (móvil)">
     <ul class="flex flex-col gap-2">
       <li class="flex items-center gap-2.5 px-2 pb-1.5">
-        <span data-app-avatar aria-hidden="true" class="flex size-9 items-center justify-center rounded-full bg-seafoam font-heading text-[15px] font-bold text-ocean-deep">S</span>
+        <span data-app-avatar aria-hidden="true" class="flex size-9 items-center justify-center rounded-full bg-sand pt-0.5 font-heading text-[15px] font-bold text-navy-dark">S</span>
         <span data-app-nombre class="truncate font-heading text-[15px] font-bold text-white">Surfista</span>
       </li>
       {items.map((item) => (
@@ -81,9 +85,9 @@ const items = [
           <a
             href={item.href}
             class:list={[
-              "flex w-full items-center rounded-full px-5 py-3 font-heading text-[15px] font-bold",
+              "flex w-full items-center rounded-full px-5 py-3 font-heading text-[15px] font-bold tracking-[0.06em]",
               active === item.id
-                ? "border border-terracotta bg-white/10 text-white"
+                ? "border border-sand bg-white/10 text-white"
                 : "bg-white/[0.07] text-white/85",
             ]}
           >
@@ -92,7 +96,7 @@ const items = [
         </li>
       ))}
       <li>
-        <button type="button" data-app-salir class="flex w-full items-center rounded-full border border-white/30 px-5 py-3 font-heading text-[15px] font-bold text-white">
+        <button type="button" data-app-salir class="btn-secondary-light btn-block">
           Salir
         </button>
       </li>

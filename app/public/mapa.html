@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mapa de spots · SurfCity Cams</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600;700&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600;700&family=Open+Sans:wght@400;600&display=swap">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
 <style>
 :root{
-  --ocean:#00527A; --ocean-deep:#003A57; --terracotta:#DC8158; --sand:#EFDEB1;
-  --mist:#F4F7F9; --seafoam:#7FD8F0; --success:#2EAA6B;
-  --font-heading:"Josefin Sans","Trebuchet MS",sans-serif; --font-body:"Inter",system-ui,sans-serif;
+  --ocean:#005279; --ocean-deep:#0A3550; --terracotta:#DC8158; --sand:#F1E6D2;
+  --mist:#FBF7F1; --seafoam:#7FD8F0; --success:#2EAA6B;
+  --font-heading:"Josefin Sans","Trebuchet MS",sans-serif; --font-body:"Open Sans",Arial,sans-serif;
 }
 html,body{margin:0;height:100%;background:var(--mist);font-family:var(--font-body);color:var(--ocean-deep)}
 #map{position:absolute;inset:0;background:#B7D2E0}
 .leaflet-tile-pane{filter:brightness(1.02) saturate(1.08)}
 #tint{position:absolute;inset:0;z-index:400;pointer-events:none;background:radial-gradient(130% 90% at 30% 45%,rgba(0,58,87,0),rgba(0,58,87,.28));mix-blend-mode:multiply}
 .leaflet-container{background:#9FC4D6;font-family:var(--font-body)}
-.leaflet-control-attribution{background:rgba(255,255,255,.82)!important;color:#5C6B75!important;font-size:10px}
+.leaflet-control-attribution{background:rgba(255,255,255,.82)!important;color:#6B7B85!important;font-size:10px}
 .leaflet-control-attribution a{color:var(--ocean)!important}
 
 /* Zoom nativo, a juego con los pills del HUD */
@@ -45,7 +45,7 @@ html,body{margin:0;height:100%;background:var(--mist);font-family:var(--font-bod
 .leaflet-tooltip.tip{background:rgba(255,255,255,.96);border:1px solid rgba(0,82,122,.18);border-radius:12px;box-shadow:0 10px 28px rgba(0,42,64,.28);color:var(--ocean-deep);padding:8px 13px;font-size:13px;white-space:nowrap;backdrop-filter:blur(4px);cursor:pointer}
 .leaflet-tooltip.tip::before{display:none}
 .leaflet-tooltip.tip .c{display:block;font:700 16px/1.15 var(--font-heading);letter-spacing:.02em;color:var(--ocean-deep)}
-.leaflet-tooltip.tip .p{display:flex;align-items:center;gap:6px;font-size:12px;color:#5C6B75;margin-top:3px}
+.leaflet-tooltip.tip .p{display:flex;align-items:center;gap:6px;font-size:12px;color:#6B7B85;margin-top:3px}
 .leaflet-tooltip.tip .p .dot{width:6px;height:6px;border-radius:50%;background:#E5484D;animation:parp 1.6s ease-in-out infinite}
 .leaflet-tooltip.tip .p .lock{color:#8A6D3B;font-weight:600}
 @keyframes parp{0%,100%{opacity:1}50%{opacity:.3}}

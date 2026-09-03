@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { Check, Lock } from "lucide-react";
 import {
   spots,
   passDurations,
@@ -39,9 +38,27 @@ function durationLong(d: PassDuration): string {
   return d.id.endsWith("h") ? d.label.replace(" h", " horas") : d.label;
 }
 
+/** Iconos funcionales inline (check / candado), sin dependencia de lucide. */
+function Check({ className = "", strokeWidth = 2.5 }: { className?: string; strokeWidth?: number }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M6 12.5l4 4 8-9" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function Lock({ className = "" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" strokeWidth="2" />
+      <path d="M8 11V8a4 4 0 1 1 8 0v3" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  );
+}
+
 function CheckBadge() {
   return (
-    <div className="absolute -right-2 -top-2 flex size-[26px] items-center justify-center rounded-full border-[2.5px] border-mist bg-success">
+    <div className="absolute -right-2 -top-2 flex size-[26px] items-center justify-center rounded-full border-[2.5px] border-foam bg-success">
       <Check className="size-3 text-white" strokeWidth={3} />
     </div>
   );
@@ -50,8 +67,8 @@ function CheckBadge() {
 /** Patrón de selección sin salto de layout: borde fijo + ring interior. */
 function cardSelectClass(isSelected: boolean): string {
   return isSelected
-    ? "border border-transparent ring-2 ring-ocean ring-inset shadow-[0_6px_18px_rgba(0,82,122,0.12)]"
-    : "border border-ocean/15 hover:border-ocean/40";
+    ? "border border-transparent ring-2 ring-navy ring-inset"
+    : "border border-divider hover:border-navy/40";
 }
 
 export default function PassBuilder() {
@@ -136,11 +153,11 @@ export default function PassBuilder() {
       : { label: `Pagar $${price.total.toFixed(2)}`, run: pay, total: `$${price.total.toFixed(2)}` };
 
   return (
-    <div className="flex flex-col items-start gap-8 pb-24 lg:flex-row lg:pb-0">
+    <div className="flex flex-col items-start gap-8 lg:flex-row">
       {/* Selección */}
       <div className="flex w-full flex-1 flex-col gap-7">
         <div className="flex flex-col gap-1.5">
-          <h1 className="font-heading text-[26px] font-bold text-ocean-deep md:text-[32px]">
+          <h1 className="font-heading text-[26px] font-bold text-navy md:text-[32px]">
             Arma tu pase
           </h1>
           <p className="text-[15px] text-muted-foreground">
@@ -150,7 +167,7 @@ export default function PassBuilder() {
 
         {/* Spots */}
         <div className="flex flex-col gap-3.5">
-          <h2 className="font-heading text-[17px] font-bold text-ocean-deep">
+          <h2 className="font-heading text-[17px] font-bold text-navy">
             Spots{" "}
             <span className="text-sm font-normal text-muted-foreground">
               · {n} {n === 1 ? "seleccionado" : "seleccionados"}
@@ -181,7 +198,7 @@ export default function PassBuilder() {
                     />
                   </div>
                   <div className="flex flex-col gap-0.5">
-                    <div className="font-heading text-[15px] font-bold text-ocean-deep">
+                    <div className="font-heading text-[15px] font-bold text-navy">
                       {spot.name}
                     </div>
                     <div className="text-xs text-muted-foreground">
@@ -197,7 +214,7 @@ export default function PassBuilder() {
 
         {/* Duración */}
         <div className="flex flex-col gap-3.5">
-          <h2 className="font-heading text-[17px] font-bold text-ocean-deep">
+          <h2 className="font-heading text-[17px] font-bold text-navy">
             Duración
           </h2>
           <div className="grid grid-cols-2 gap-3.5 md:grid-cols-4">
@@ -217,7 +234,7 @@ export default function PassBuilder() {
                   <div
                     className={
                       "font-heading text-xl font-bold " +
-                      (isSelected ? "text-ocean" : "text-ocean-deep")
+                      (isSelected ? "text-navy" : "text-ink")
                     }
                   >
                     {d.label}
@@ -225,7 +242,7 @@ export default function PassBuilder() {
                   <div className="text-[13px] text-muted-foreground">
                     {d.hint}
                   </div>
-                  <div className="text-xs font-semibold text-ocean">
+                  <div className="text-xs font-semibold text-navy">
                     ${PASS_PRICE_PER_SPOT[d.id].toFixed(2)} / spot
                   </div>
                   {isSelected && <CheckBadge />}
@@ -238,14 +255,14 @@ export default function PassBuilder() {
 
       {/* Resumen */}
       <div className="flex w-full shrink-0 flex-col gap-4 lg:sticky lg:top-24 lg:w-[380px]">
-        <div className="flex flex-col gap-[18px] rounded-[20px] border border-ocean/10 bg-white p-[26px] shadow-[0_12px_34px_rgba(0,58,87,0.10)]">
+        <div className="flex flex-col gap-[18px] rounded-2xl border border-divider bg-white p-5 shadow-sm sm:p-[26px]">
           {subConfirmed && subPlan ? (
             <>
               <div className="flex flex-col items-center gap-3 py-2 text-center">
                 <div className="flex size-12 items-center justify-center rounded-full bg-success">
                   <Check className="size-6 text-white" strokeWidth={3} />
                 </div>
-                <div className="font-heading text-[19px] font-bold text-ocean-deep">
+                <div className="font-heading text-[19px] font-bold text-navy">
                   Suscripción lista · Plan {subPlan.name}
                 </div>
                 <p className="text-sm text-muted-foreground">
@@ -255,35 +272,35 @@ export default function PassBuilder() {
               </div>
               <a
                 href="/cuenta"
-                className="rounded-full bg-terracotta-dark py-3.5 text-center font-heading text-base font-bold text-white transition-colors hover:bg-terracotta"
+                className="btn-primary btn-block"
               >
                 Ver mi cuenta
               </a>
             </>
           ) : subPlan ? (
             <>
-              <h2 className="font-heading text-[19px] font-bold text-ocean-deep">
+              <h2 className="font-heading text-[19px] font-bold text-navy">
                 Tu suscripción
               </h2>
               <div className="flex flex-col gap-2.5">
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-sm text-muted-foreground">Plan</span>
-                  <span className="text-sm font-semibold text-ocean-deep">
+                  <span className="text-sm font-semibold text-ink">
                     {subPlan.name}
                   </span>
                 </div>
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-sm text-muted-foreground">Incluye</span>
-                  <span className="text-right text-sm font-semibold text-ocean-deep">
+                  <span className="text-right text-sm font-semibold text-ink">
                     {subPlan.features[0].text}
                   </span>
                 </div>
-                <div className="my-1 h-px bg-ocean/10"></div>
+                <div className="my-1 h-px bg-navy/10"></div>
                 <div className="mt-1.5 flex items-baseline justify-between">
-                  <span className="font-heading text-[17px] font-bold text-ocean-deep">
+                  <span className="font-heading text-[17px] font-bold text-navy">
                     Total
                   </span>
-                  <span className="font-heading text-3xl font-bold text-ocean-deep">
+                  <span className="font-heading text-3xl font-bold text-navy">
                     ${subPlan.monthly.toFixed(2)}
                     <span className="font-sans text-sm font-normal text-muted-foreground">
                       {" "}/mes
@@ -297,14 +314,14 @@ export default function PassBuilder() {
               <button
                 type="button"
                 onClick={confirmSub}
-                className="rounded-full bg-terracotta-dark py-3.5 font-heading text-base font-bold text-white transition-colors hover:bg-terracotta"
+                className="btn-primary btn-block"
               >
                 Confirmar suscripción
               </button>
               <button
                 type="button"
                 onClick={() => setPlanId(null)}
-                className="text-center text-sm font-semibold text-ocean transition-colors hover:text-ocean-deep"
+                className="min-h-11 text-center text-sm font-semibold text-navy transition-colors hover:text-navy-dark"
               >
                 Prefiero un pase puntual
               </button>
@@ -315,7 +332,7 @@ export default function PassBuilder() {
                 <div className="flex size-12 items-center justify-center rounded-full bg-success">
                   <Check className="size-6 text-white" strokeWidth={3} />
                 </div>
-                <div className="font-heading text-[19px] font-bold text-ocean-deep">
+                <div className="font-heading text-[19px] font-bold text-navy">
                   Pase listo · código {confirmed}
                 </div>
                 <p className="text-sm text-muted-foreground">
@@ -325,20 +342,20 @@ export default function PassBuilder() {
               </div>
               <a
                 href="/cuenta"
-                className="rounded-full bg-terracotta-dark py-3.5 text-center font-heading text-base font-bold text-white transition-colors hover:bg-terracotta"
+                className="btn-primary btn-block"
               >
                 Ver mi cuenta
               </a>
             </>
           ) : (
             <>
-              <h2 className="font-heading text-[19px] font-bold text-ocean-deep">
+              <h2 className="font-heading text-[19px] font-bold text-navy">
                 {step === "pago" ? "Pago" : "Tu pase"}
               </h2>
               <div className="flex flex-col gap-2.5">
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-sm text-muted-foreground">Spots</span>
-                  <span className="text-right text-sm font-semibold text-ocean-deep">
+                  <span className="text-right text-sm font-semibold text-ink">
                     {n > 0 ? selectedNames : "Ninguno"}
                   </span>
                 </div>
@@ -346,23 +363,23 @@ export default function PassBuilder() {
                   <span className="text-sm text-muted-foreground">
                     Duración
                   </span>
-                  <span className="text-sm font-semibold text-ocean-deep">
+                  <span className="text-sm font-semibold text-ink">
                     {durationLong(duration)}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Incluye</span>
-                  <span className="text-sm font-semibold text-ocean-deep">
+                  <span className="text-sm font-semibold text-ink">
                     Cámara + forecast 4 días
                   </span>
                 </div>
-                <div className="my-1 h-px bg-ocean/10"></div>
+                <div className="my-1 h-px bg-navy/10"></div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">
                     {n} {n === 1 ? "spot" : "spots"} × {duration.label} ($
                     {unit.toFixed(2)} c/u)
                   </span>
-                  <span className="text-sm font-semibold text-ocean-deep">
+                  <span className="text-sm font-semibold text-ink">
                     ${price.base.toFixed(2)}
                   </span>
                 </div>
@@ -388,10 +405,10 @@ export default function PassBuilder() {
                   )
                 )}
                 <div className="mt-1.5 flex items-baseline justify-between">
-                  <span className="font-heading text-[17px] font-bold text-ocean-deep">
+                  <span className="font-heading text-[17px] font-bold text-navy">
                     Total
                   </span>
-                  <span className="font-heading text-3xl font-bold text-ocean-deep">
+                  <span className="font-heading text-3xl font-bold text-navy">
                     ${price.total.toFixed(2)}
                   </span>
                 </div>
@@ -414,10 +431,10 @@ export default function PassBuilder() {
                           aria-checked={on}
                           onClick={() => setPayMethod(m.id)}
                           className={
-                            "rounded-full px-4 py-2 font-heading text-[13px] font-bold transition-colors " +
+                            "min-h-11 rounded-full px-4 py-2 font-heading text-[13px] font-bold transition-colors sm:min-h-0 " +
                             (on
-                              ? "border border-transparent bg-ocean text-white ring-2 ring-ocean ring-inset"
-                              : "border border-ocean/20 text-ocean hover:border-ocean/50")
+                              ? "border border-transparent bg-navy text-white ring-2 ring-navy ring-inset"
+                              : "border border-navy/20 text-navy hover:border-navy/50")
                           }
                         >
                           {m.label}
@@ -428,14 +445,14 @@ export default function PassBuilder() {
                   <button
                     type="button"
                     onClick={pay}
-                    className="rounded-full bg-terracotta-dark py-3.5 font-heading text-base font-bold text-white transition-colors hover:bg-terracotta"
+                    className="btn-primary btn-block"
                   >
                     Pagar ${price.total.toFixed(2)}
                   </button>
                   <button
                     type="button"
                     onClick={() => setStep("armar")}
-                    className="text-center text-sm font-semibold text-ocean transition-colors hover:text-ocean-deep"
+                    className="min-h-11 text-center text-sm font-semibold text-navy transition-colors hover:text-navy-dark"
                   >
                     Volver al resumen
                   </button>
@@ -445,7 +462,7 @@ export default function PassBuilder() {
                   type="button"
                   onClick={goToPay}
                   disabled={n === 0}
-                  className="rounded-full bg-terracotta-dark py-3.5 font-heading text-base font-bold text-white transition-colors hover:bg-terracotta disabled:cursor-not-allowed disabled:opacity-50"
+                  className="btn-primary btn-block"
                 >
                   Continuar al pago
                 </button>
@@ -462,39 +479,16 @@ export default function PassBuilder() {
 
         {/* Card plan Local (solo en modo pase) */}
         {!subPlan && (
-          <div className="flex items-center gap-3 rounded-2xl border border-dashed border-ocean/30 bg-ocean/5 px-[18px] py-4">
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="shrink-0"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <path
-                d="M2 18c3-5 6-5 9-2.5S18 18 22 14"
-                stroke="#00527A"
-                strokeWidth="2"
-                strokeLinecap="round"
-              ></path>
-              <path
-                d="M13 9c2.5-4 6-4.5 9-2"
-                stroke="#00527A"
-                strokeWidth="2"
-                strokeLinecap="round"
-              ></path>
-            </svg>
-            <div className="text-[13px] leading-relaxed text-ocean-deep">
+          <div className="rounded-2xl border border-divider bg-foam px-[18px] py-4">
+            <div className="text-[15px] leading-relaxed text-ink sm:text-[13px]">
               Con el plan{" "}
               <strong>
                 {localPlan.name} (${localPlan.monthly}/mes)
               </strong>{" "}
-              tendrías todos los spots, siempre.{" "}
+              tendrías las nueve cámaras todos los días del mes.{" "}
               <a
                 href="/planes"
-                className="font-semibold text-terracotta hover:text-terracotta-dark"
+                className="inline-flex min-h-11 items-center font-semibold text-terracotta hover:text-terracotta-dark sm:min-h-0"
               >
                 Comparar
               </a>
@@ -503,13 +497,15 @@ export default function PassBuilder() {
         )}
       </div>
 
-      {/* Barra fija inferior solo móvil: total + CTA */}
+      {/* Barra fija inferior solo móvil: total + CTA. El espaciador reserva su
+          alto para que no tape el final del contenido ni el pie. */}
+      {!done && <div aria-hidden="true" className="h-[72px] w-full lg:hidden" />}
       {!done && (
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ocean/10 bg-white/95 backdrop-blur lg:hidden">
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3">
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-divider bg-white pb-[env(safe-area-inset-bottom)] lg:hidden">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-6">
             <div className="flex flex-col">
               <span className="text-xs text-muted-foreground">Total</span>
-              <span className="font-heading text-xl font-bold text-ocean-deep">
+              <span className="font-heading text-xl font-bold text-navy">
                 {mobileAction.total}
               </span>
             </div>
@@ -517,7 +513,7 @@ export default function PassBuilder() {
               type="button"
               onClick={mobileAction.run}
               disabled={!subPlan && n === 0}
-              className="rounded-full bg-terracotta-dark px-6 py-3 font-heading text-[15px] font-bold text-white transition-colors hover:bg-terracotta disabled:cursor-not-allowed disabled:opacity-50"
+              className="btn-primary shrink-0"
             >
               {mobileAction.label}
             </button>

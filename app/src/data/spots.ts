@@ -373,7 +373,7 @@ export const plans: Plan[] = [
     featured: true,
     cta: "Suscribirse a Local",
     features: [
-      { text: "Todas las cámaras, sin límite", included: true },
+      { text: "Las 9 cámaras, todos los días", included: true },
       { text: "Forecast completo a 7 días", included: true },
       { text: "Repetición de 24 h en cada cámara", included: true },
       { text: "Alertas de condiciones por spot", included: true },

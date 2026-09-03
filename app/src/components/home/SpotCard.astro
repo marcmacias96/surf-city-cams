@@ -13,7 +13,7 @@ const href = `/spots/${spot.slug}`;
 const tideDown = spot.tide.startsWith("Bajando");
 ---
 
-<article class="flex flex-col overflow-hidden rounded-2xl border border-ocean/10 bg-white shadow-[0_6px_20px_rgba(0,58,87,0.06)] transition-shadow hover:shadow-[0_10px_28px_rgba(0,58,87,0.12)]">
+<article class="flex flex-col overflow-hidden rounded-2xl border border-divider bg-white transition-colors hover:border-navy/40">
   {locked ? (
     <CamSurface gradient={spot.gradient} locked class="h-[190px]" />
   ) : (
@@ -24,14 +24,14 @@ const tideDown = spot.tide.startsWith("Bajando");
 
   <div class="flex flex-col gap-3 p-4 pb-[18px]">
     <div class="flex items-baseline justify-between gap-3">
-      <a href={href} class="font-heading text-[19px] font-bold text-ocean-deep hover:text-ocean">{spot.name}</a>
+      <a href={href} class="font-heading text-[19px] font-bold text-navy hover:text-navy">{spot.name}</a>
       <span class="text-xs text-muted-foreground">{spot.breakType} · {spot.region}</span>
     </div>
 
     <div class="flex flex-wrap gap-2">
-      <span class="flex items-center gap-1.5 rounded-full bg-mist px-2.5 py-1.5">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 17c3-5 6-5 9-2.5S18 17 22 13" stroke="#00527A" stroke-width="2" stroke-linecap="round"></path></svg>
-        <span class="text-xs font-semibold text-ocean-deep">{spot.waveM.toFixed(1)} m</span>
+      <span class="flex items-center gap-1.5 rounded-full bg-foam px-2.5 py-1.5">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 17c3-5 6-5 9-2.5S18 17 22 13" stroke="#005279" stroke-width="2" stroke-linecap="round"></path></svg>
+        <span class="text-xs font-semibold text-ink">{spot.waveM.toFixed(1)} m</span>
       </span>
 
       {locked ? (
@@ -42,23 +42,23 @@ const tideDown = spot.tide.startsWith("Bajando");
       ) : (
         <>
           {spot.offshore ? (
-            <span class="flex items-center gap-1.5 rounded-full bg-mist px-2.5 py-1.5">
+            <span class="flex items-center gap-1.5 rounded-full bg-foam px-2.5 py-1.5">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h9a3 3 0 1 0-3-3M3 12h13a3 3 0 1 1-3 3" stroke="#2EAA6B" stroke-width="2" stroke-linecap="round"></path></svg>
               <span class="text-xs font-semibold text-success">Offshore</span>
             </span>
           ) : (
-            <span class="flex items-center gap-1.5 rounded-full bg-mist px-2.5 py-1.5">
+            <span class="flex items-center gap-1.5 rounded-full bg-foam px-2.5 py-1.5">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h9a3 3 0 1 0-3-3M3 12h13a3 3 0 1 1-3 3" stroke="#6B7B85" stroke-width="2" stroke-linecap="round"></path></svg>
               <span class="text-xs font-semibold text-muted-foreground">{spot.windKn} kn</span>
             </span>
           )}
-          <span class="flex items-center gap-1.5 rounded-full bg-mist px-2.5 py-1.5">
+          <span class="flex items-center gap-1.5 rounded-full bg-foam px-2.5 py-1.5">
             {tideDown ? (
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v13M7 13l5 5 5-5" stroke="#00527A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v13M7 13l5 5 5-5" stroke="#005279" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             ) : (
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 19V6M7 11l5-5 5 5" stroke="#00527A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 19V6M7 11l5-5 5 5" stroke="#005279" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             )}
-            <span class="text-xs font-semibold text-ocean-deep">{spot.tide}</span>
+            <span class="text-xs font-semibold text-ink">{spot.tide}</span>
           </span>
         </>
       )}

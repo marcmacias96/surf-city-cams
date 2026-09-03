@@ -14,33 +14,35 @@ import PassBuilder from "@/components/comprar/PassBuilder";
     }
   </script>
 
-  <div class="flex min-h-screen flex-col bg-mist">
+  <div class="flex min-h-screen flex-col bg-foam">
     <!-- Barra de checkout: Logo + stepper + ayuda -->
-    <header class="sticky top-0 z-50 border-b border-ocean/10 bg-white/90 backdrop-blur">
-      <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5 lg:px-10">
-        <Logo href="/app" />
-        <!-- Stepper: refleja el paso real del builder (evento "sc-paso") -->
-        <div id="stepper" class="hidden items-center gap-3.5 md:flex">
-          <div class="flex items-center gap-2" data-paso="1">
+    <header class="sticky top-0 z-50 border-b border-divider bg-white">
+      <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-2 sm:px-6 sm:py-3.5 lg:px-10">
+        <Logo href="/app" size={24} />
+        <!-- Stepper: refleja el paso real del builder (evento "sc-paso").
+             En móvil se compacta a tres círculos numerados sin rótulo (los
+             rótulos quedan solo para lectores de pantalla). -->
+        <div id="stepper" class="flex shrink-0 items-center gap-2 md:gap-3.5" aria-label="Progreso de la compra">
+          <div class="flex items-center md:gap-2" data-paso="1">
             <span class="paso-dot flex size-7 items-center justify-center rounded-full pt-0.5 font-heading text-sm font-bold"></span>
-            <span class="paso-label font-heading text-sm font-semibold">Arma tu pase</span>
+            <span class="paso-label sr-only font-heading text-sm font-semibold md:not-sr-only">Arma tu pase</span>
           </div>
-          <div class="h-0.5 w-9 bg-ocean/20" data-linea="1"></div>
-          <div class="flex items-center gap-2" data-paso="2">
+          <div class="h-0.5 w-5 bg-navy/20 md:w-9" data-linea="1"></div>
+          <div class="flex items-center md:gap-2" data-paso="2">
             <span class="paso-dot flex size-7 items-center justify-center rounded-full pt-0.5 font-heading text-sm font-bold"></span>
-            <span class="paso-label font-heading text-sm font-semibold">Pago</span>
+            <span class="paso-label sr-only font-heading text-sm font-semibold md:not-sr-only">Pago</span>
           </div>
-          <div class="h-0.5 w-9 bg-ocean/20" data-linea="2"></div>
-          <div class="flex items-center gap-2" data-paso="3">
+          <div class="h-0.5 w-5 bg-navy/20 md:w-9" data-linea="2"></div>
+          <div class="flex items-center md:gap-2" data-paso="3">
             <span class="paso-dot flex size-7 items-center justify-center rounded-full pt-0.5 font-heading text-sm font-bold"></span>
-            <span class="paso-label font-heading text-sm font-semibold">Listo</span>
+            <span class="paso-label sr-only font-heading text-sm font-semibold md:not-sr-only">Listo</span>
           </div>
         </div>
-        <a href="/cuenta" class="text-sm text-muted-foreground hover:text-ocean">¿Ayuda?</a>
+        <a href="/cuenta" class="flex min-h-11 shrink-0 items-center px-1 text-sm text-muted-foreground hover:text-navy sm:px-2">Ayuda</a>
       </div>
     </header>
 
-    <main class="mx-auto w-full max-w-7xl flex-1 px-6 pb-14 pt-11 lg:px-10">
+    <main class="mx-auto w-full max-w-7xl flex-1 px-5 pb-14 pt-7 sm:px-6 sm:pt-11 lg:px-10">
       <PassBuilder client:load />
     </main>
 
@@ -61,23 +63,24 @@ import PassBuilder from "@/components/comprar/PassBuilder";
         const label = el.querySelector<HTMLElement>(".paso-label");
         if (!dot || !label) return;
         const base = "paso-dot flex size-7 items-center justify-center rounded-full pt-0.5 font-heading text-sm font-bold";
+        const LABEL = "paso-label sr-only font-heading text-sm font-semibold md:not-sr-only";
         if (i < idx || (paso === "listo" && i === idx)) {
           dot.className = `${base} bg-success text-white`;
           dot.innerHTML = CHECK;
-          label.className = "paso-label font-heading text-sm font-semibold text-success";
+          label.className = `${LABEL} text-success`;
         } else if (i === idx) {
-          dot.className = `${base} bg-ocean text-white`;
+          dot.className = `${base} bg-navy text-white`;
           dot.textContent = String(i + 1);
-          label.className = "paso-label font-heading text-sm font-bold text-ocean";
+          label.className = `${LABEL} font-bold text-navy`;
         } else {
-          dot.className = `${base} bg-ocean/10 text-muted-foreground`;
+          dot.className = `${base} bg-navy/10 text-muted-foreground`;
           dot.textContent = String(i + 1);
-          label.className = "paso-label font-heading text-sm font-semibold text-muted-foreground";
+          label.className = `${LABEL} text-muted-foreground`;
         }
       });
       document.querySelectorAll<HTMLElement>("#stepper [data-linea]").forEach((el) => {
         const i = Number(el.dataset.linea);
-        el.className = i <= idx ? "h-0.5 w-9 bg-success" : "h-0.5 w-9 bg-ocean/20";
+        el.className = i <= idx ? "h-0.5 w-5 bg-success md:w-9" : "h-0.5 w-5 bg-navy/20 md:w-9";
       });
     }
 
